@@ -5,10 +5,7 @@ from json import loads
 from os.path import join as urljoin
 
 # local
-from .cryptocurrency import Cryptocurrency
-from .environment import Sandbox, Production
-
-
+from .endpoints import *
 
 class Client(Sandbox, Production):
     def __init__(self, apikey=None, expire=3600, sandbox=False):
@@ -32,7 +29,7 @@ class Client(Sandbox, Production):
             res["cached"] = response.from_cache
             return res
         else:
-            response.raise_for_status()
+            response.raise_for_status
 
     def _request(self, url):
         return self.session.get(url)

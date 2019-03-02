@@ -31,7 +31,7 @@ class Parse:
         if isinstance(arg, str):
             return arg
         elif isinstance(arg, list):
-            if all(isinstance(id, str) for id in arg):
+            if all(isinstance(symbol, str) for symbol in arg):
                 return ",".join(arg)
             else:
                 raise ValueError
@@ -42,7 +42,7 @@ class Parse:
         if isinstance(arg, str):
             return arg
         if isinstance(arg, list):
-            if all(isinstance(id, str) for id in arg):
+            if all(isinstance(slug, str) for slug in arg):
                 return ",".join(arg)
             else:
                 raise ValueError
@@ -73,13 +73,14 @@ class Parse:
         else:
             raise ValueError
 
+
     def cryptocurrency_type(self, arg: str) -> str:
         if isinstance(arg, str):
             return arg
         else:
             raise ValueError
 
-    def time_start(self, arg: Union[datetime, float]) -> str:
+    def time(self, arg: Union[datetime, float]) -> str:
         if isinstance(arg, datetime):
             return datetime.strftime("%Y-%m-%d")
         if isinstance(arg, float):
@@ -87,13 +88,11 @@ class Parse:
         else:
             raise ValueError
 
+    def time_start(self, arg: Union[datetime, float]) -> str:
+        return self.time(arg)
+
     def time_end(self, arg: Union[datetime, float]) -> str:
-        if isinstance(arg, datetime):
-            return datetime.strftime("%Y-%m-%d")
-        if isinstance(arg, float):
-            return datetime.fromtimestamp(arg).strftime("%Y-%m-%d")
-        else:
-            raise ValueError
+        return self.time(arg)
 
     def time_period(self, arg: str) -> str:
         if isinstance(arg, str):
@@ -108,6 +107,18 @@ class Parse:
             raise ValueError
 
     def interval(self, arg: str) -> str:
+        if isinstance(arg, str):
+            return arg
+        else:
+            raise ValueError
+
+    def slug(self, arg: Union[str, list]) -> str:
+        if isinstance(arg, str):
+            return arg
+        elif isinstance(arg, list):
+            if all(isinstance(slug, str))
+
+    def market_type(self, arg: str) -> str:
         if isinstance(arg, str):
             return arg
         else:

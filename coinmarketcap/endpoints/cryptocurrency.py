@@ -6,7 +6,7 @@ from typing import Union
 # local
 from .parser import Parse
 
-class info:
+class Info:
     """ Get metadata by CoinMarketCap ID
 
     Returns all static metadata for one or more cryptocurrencies including
@@ -17,7 +17,7 @@ class info:
     """
 
     def __init__(self, request, parse, endpoint):
-        self.request = lambda x: request(urljoin(endpoint, urn), parse(x))
+        self.request = lambda x: request(urljoin(endpoint, "info"), parse(x))
 
     def info_id(self, id: Union[list, str, int]):
         """
@@ -48,7 +48,7 @@ class info:
         return self.request(locals())
 
 
-class map:
+class Map:
     """
     Returns a paginated list of all cryptocurrencies by CoinMarketCap ID. We
     recommend using this convenience endpoint to lookup and utilize our unique
@@ -108,7 +108,7 @@ class map:
         return self.request({"listing_status": "inactive"})
 
 
-class list:
+class Listings:
     """ List all cryptocurrencies
 
     Get a paginated list of all cryptocurrencies with latest market data.
@@ -165,7 +165,7 @@ class list:
         return self.request("latest", locals())
 
 
-class pairs:
+class Pairs:
     """ Get market pairs (latest)
 
     Lists all market pairs across all exchanges for the specified
@@ -250,7 +250,7 @@ class pairs:
         return self.request(locals())
 
 
-class ohlcv:
+class Ohlcv:
     """
     Return historical and latest OHLCV (Open, High, Low, Close, Volume) data
     along with market cap for any cryptocurrency using time interval
@@ -379,7 +379,7 @@ class ohlcv:
         return self.request("latest", locals())
 
 
-class quotes:
+class Quotes:
     """ Get market quotes
 
     Returns an interval of historic market quotes for any cryptocurrency based
@@ -491,11 +491,10 @@ class quotes:
 
 class Cryptocurrency:
     def __init__(self, request):
-        self.request = request
-        parse = Parse()
-        endpoint = "cryptocurrency"
-        self.info = info(request, parse.args, endpoint)
-        self.map = map(request, parse.args, endpoint)
-        self.list = list(request, parse.args, endpoint)
-        self.ohlcv = ohlcv(request, parse.args, endpoint)
-        self.quotes = quotes(request, parse.args, endpoint)
+        args = (request, Parse().args, "cryptocurrency")
+        self.info = Info(*args)
+        self.map = Map(*args)
+        self.pairs = Pairs(*args)
+        self.listings = Listings(*args)
+        self.ohlcv = Ohlcv(*args)
+        self.quotes = Quotes(*args)
