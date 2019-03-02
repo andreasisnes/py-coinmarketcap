@@ -5,7 +5,9 @@ from json import loads
 from os.path import join as urljoin
 
 # local
-from .endpoints import *
+from .endpoints import Cryptocurrency, Exchange, GlobalMetrics, Tools
+from .environment import Sandbox, Production
+
 
 class Client(Sandbox, Production):
     def __init__(self, apikey=None, expire=3600, sandbox=False):
@@ -13,7 +15,11 @@ class Client(Sandbox, Production):
             Sandbox.__init__(self, apikey, expire)
         else:
             Production.__init__(self, apikey, expire)
+
         self.cryptocurrency = Cryptocurrency(self.request)
+        self.global_metrics = GlobalMetrics(self.request)
+        self.exchange = Exchange(self.request)
+        self.tools = Tools(self.request)
 
     def request(self, urn, params):
         url = Request("GET", urljoin(self.url, urn), params).prepare().url

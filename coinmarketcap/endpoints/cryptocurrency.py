@@ -2,9 +2,11 @@
 
 from os.path import join as urljoin
 from typing import Union
+import datetime
 
 # local
 from .parser import Parse
+
 
 class Info:
     """ Get metadata by CoinMarketCap ID
@@ -12,8 +14,9 @@ class Info:
     Returns all static metadata for one or more cryptocurrencies including
     name, symbol, logo, and its various registered URLs.
 
-    Cache / Update frequency: Static data is updated only as needed, every 30 seconds.
-    Plan credit use: 1 call credit per 100 cryptocurrencies returned (rounded up).
+    Cache / Update frequency: Static data is updated only as needed, every 30
+    seconds. Plan credit use: 1 call credit per 100 cryptocurrencies returned
+    (rounded up).
     """
 
     def __init__(self, request, parse, endpoint):
@@ -57,10 +60,11 @@ class Map:
     convenience you may pass a comma-separated list of cryptocurrency symbols
     as symbol to filter this list to only those you require.
 
-    Cache / Update frequency: Mapping data is updated only as needed, every 30 seconds.
-    Plan credit use: 1 call credit per call.
-    CMC equivalent pages: No equivalent, this data is only available via API.
+    Cache / Update frequency: Mapping data is updated only as needed, every 30
+    seconds. Plan credit use: 1 call credit per call. CMC equivalent pages: No
+    equivalent, this data is only available via API.
     """
+
     def __init__(self, request, parse, endpoint):
         self.parse = parse
         self.request = lambda x: request(urljoin(endpoint, "map"), x)
@@ -120,13 +124,22 @@ class Listings:
     Plan credit use: 1 call credit per 200 cryptocurrencies returned
     (rounded up) and 1 call credit per convert option beyond the first.
     """
+
     def __init__(self, request, parse, endpoint):
-        self.request = lambda x,y: request(urljoin(endpoint, "listings", x), parse(y))
+        self.request = lambda x, y: request(urljoin(endpoint, "listings", x), parse(y))
 
     def historical_start():
-        raise NotImplemented
+        raise NotImplementedError
 
-    def latest_start(start=1, limit=100, convert="USD", sort="market_cap", sort_dir="desc", cryptocurrency_type="all"):
+    def latest_start(
+        self,
+        start=1,
+        limit=100,
+        convert="USD",
+        sort="market_cap",
+        sort_dir="desc",
+        cryptocurrency_type="all",
+    ):
         """
         Parameters
         ----------
@@ -174,12 +187,15 @@ class Pairs:
     conversions in the same call.
 
     Cache / Update frequency: Every 1 minute.
-    Plan credit use: 1 call credit per 100 market pairs returned (rounded up) and 1 call credit per convert option beyond the first.
-    CMC equivalent pages: Our active cryptocurrency markets pages like
+    Plan credit use: 1 call credit per 100 market pairs returned (rounded up)
+    and 1 call credit per convert option beyond the first. CMC equivalent
+    pages: Our active cryptocurrency markets pages like
     """
 
     def __init__(self, request, parse, endpoint):
-        self.request = lambda x: request(urljoin(endpoint, "market-pairs/latest"), parse(x))
+        self.request = lambda x: request(
+            urljoin(endpoint, "market-pairs/latest"), parse(x)
+        )
 
     def id(self, id: Union[list, str, int], convert="USD"):
         """
@@ -261,10 +277,20 @@ class Ohlcv:
     Plan credit use: 1 call credit per 100 OHLCV values returned (rounded up) and 1 call credit per convert option beyond the first.
     CMC equivalent pages: No equivalent, this data is only available via API.
     """
+
     def __init__(self, request, parse, endpoint):
         self.request = lambda x, y: request(urljoin(endpoint, "ohlvb", x), parse(y))
 
-    def historical_id(self, id: Union[str, int], time_start: Union[datetime, float], time_end: Union[datetime, float], time_period="daily", count=10, interval="daily", convert="USD"):
+    def historical_id(
+        self,
+        id: Union[str, int],
+        time_start: Union[datetime.datetime, float],
+        time_end: Union[datetime.datetime, float],
+        time_period="daily",
+        count=10,
+        interval="daily",
+        convert="USD",
+    ):
         """
         Parameters
         ----------
@@ -301,41 +327,50 @@ class Ohlcv:
         """
         return self.request("historical", locals())
 
-    def historical_symbol(self, symbol: str, time_start: Union[datetime, float], time_end: Union[datetime, float], time_period="daily", count=10, interval="daily", convert="USD"):
-            """
-            Parameters
-            ----------
-            symbol : str
-                A cryptocurrency symbol. Example: "BTC".
-            time_start : [datetime, float]
-                Timestamp (Unix or datetime) to start returning OHLCV time periods
-                for. Only the date portion of the timestamp is used for daily OHLCV.
-            time_end : [datetime, float]
-                Timestamp (Unix or datetime) to stop returning OHLCV time periods for
-                (inclusive). Optional, if not passed we'll default to the current
-                time. Only the date portion of the timestamp is used for daily OHLCV.
-            time_period : str, "daily" (default)
-                valid values : "daily" "hourly"
-                Time period to return OHLCV data for. The default is "daily".
-                See the main endpoint description for details.
-            count : int, 10 (default)
-                Optionally limit the number of time periods to return results for.
-                The default is 10 items. The current query limit is 10000 items.
-            interval : str, "daily" (default)
-                valid values: "hourly", "daily", "weekly", "monthly", "yearly",
-                "1h", "2h", "3h", "4h", "6h", "12h", "1d", "2d", "3d", "7d", "14d",
-                "15d", "30d", "60d", "90d", "365d"
-                Optionally adjust the interval that "time_period" is sampled.
-                See main endpoint description for available options.
-            convert : str, "USD" (default)
-                By default market quotes are returned in USD. Optionally calculate
-                market quotes in another fiat currency or cryptocurrency.
+    def historical_symbol(
+        self,
+        symbol: str,
+        time_start: Union[datetime.datetime, float],
+        time_end: Union[datetime.datetime, float],
+        time_period="daily",
+        count=10,
+        interval="daily",
+        convert="USD",
+    ):
+        """
+        Parameters
+        ----------
+        symbol : str
+            A cryptocurrency symbol. Example: "BTC".
+        time_start : [datetime, float]
+            Timestamp (Unix or datetime) to start returning OHLCV time periods
+            for. Only the date portion of the timestamp is used for daily OHLCV.
+        time_end : [datetime, float]
+            Timestamp (Unix or datetime) to stop returning OHLCV time periods for
+            (inclusive). Optional, if not passed we'll default to the current
+            time. Only the date portion of the timestamp is used for daily OHLCV.
+        time_period : str, "daily" (default)
+            valid values : "daily" "hourly"
+            Time period to return OHLCV data for. The default is "daily".
+            See the main endpoint description for details.
+        count : int, 10 (default)
+            Optionally limit the number of time periods to return results for.
+            The default is 10 items. The current query limit is 10000 items.
+        interval : str, "daily" (default)
+            valid values: "hourly", "daily", "weekly", "monthly", "yearly",
+            "1h", "2h", "3h", "4h", "6h", "12h", "1d", "2d", "3d", "7d", "14d",
+            "15d", "30d", "60d", "90d", "365d"
+            Optionally adjust the interval that "time_period" is sampled.
+            See main endpoint description for available options.
+        convert : str, "USD" (default)
+            By default market quotes are returned in USD. Optionally calculate
+            market quotes in another fiat currency or cryptocurrency.
 
-            Returns
-            -------
-            json object
-                Respone schema - https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyOhlcvHistorical
-            """
+        Returns
+        -------
+        json object
+            Respone schema - https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyOhlcvHistorical
+        """
         return self.request("historical", locals())
 
     def latest_id(self, id: Union[list, str, int], convert="USD"):
@@ -385,10 +420,19 @@ class Quotes:
     Returns an interval of historic market quotes for any cryptocurrency based
     on time and interval parameters.
     """
+
     def __init__(self, request, parse, endpoint):
         self.request = lambda x, y: request(urljoin(endpoint, "quotes", x), parse(y))
 
-    def historical_id(self, id: Union[str, int], time_start: Union[datetime, float], time_end: Union[datetime, float], count=10, interval="5m", convert="USD"):
+    def historical_id(
+        self,
+        id: Union[str, int],
+        time_start: Union[datetime.datetime, float],
+        time_end: Union[datetime.datetime, float],
+        count=10,
+        interval="5m",
+        convert="USD",
+    ):
         """
         Parameters
         ----------
@@ -418,7 +462,15 @@ class Quotes:
         """
         return self.request("historical", locals())
 
-    def historical_symbol(self, symbol: str, time_start: Union[datetime, float], time_end: Union[datetime, float], count=10, interval="daily", convert="USD"):
+    def historical_symbol(
+        self,
+        symbol: str,
+        time_start: Union[datetime.datetime, float],
+        time_end: Union[datetime.datetime, float],
+        count=10,
+        interval="daily",
+        convert="USD",
+    ):
         """
         Parameters
         ----------
@@ -488,6 +540,7 @@ class Quotes:
             Respone schema - https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyQuotesLatest
         """
         return self.request("latest", locals())
+
 
 class Cryptocurrency:
     def __init__(self, request):

@@ -7,10 +7,10 @@ from requests_cache.core import CachedSession as session
 from json import load
 from os import environ
 
-FILE =".coinmarketcap.json"
+FILE = ".coinmarketcap.json"
 
 
-class Session():
+class Session:
     def __init__(self, apikey, expire, cf, env):
         self.session = session(cf, "sqlite", expire)
         self.session.headers.update({"X-CMC_PRO_API_KEY": apikey})
@@ -20,6 +20,7 @@ class Session():
 
 class Sandbox(Session):
     url = "https://sandbox-api.coinmarketcap.com/v1/"
+
     def __init__(self, apikey, expire):
         cf = join(gettempdir(), "CoinMarketCap_sandbox")
         try:
@@ -38,6 +39,7 @@ class Sandbox(Session):
 
 class Production(Session):
     url = "https://pro-api.coinmarketcap.com/v1"
+
     def __init__(self, apikey, expire):
         cf = join(gettempdir(), "CoinMarketCap_production")
         try:
