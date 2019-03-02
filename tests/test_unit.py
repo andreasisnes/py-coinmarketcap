@@ -14,7 +14,7 @@ class TestClient(unittest.TestCase):
         keys_file = os.path.join(Path.home(), ".coinmarketcap.json")
         sand_env = os.environ["COINMARKETCAP_SANDBOX"]
         prod_env = os.environ["COINMARKETCAP_PRODUCTION"]
-        
+
         # Test no keys
         os.rename(keys_file, temp_file)
         del os.environ["COINMARKETCAP_SANDBOX"]
@@ -38,23 +38,22 @@ class TestClient(unittest.TestCase):
         sandbox = coinmarketcap.Client(sandbox=True)
         self.assertIsInstance(production, coinmarketcap.client.Production)
         self.assertIsInstance(sandbox, coinmarketcap.client.Sandbox)
-        
+
         # Test key
         self.production = coinmarketcap.Client(apikey=prod_env)
         self.sandbox = coinmarketcap.Client(apikey=sand_env)
         self.assertIsInstance(production, coinmarketcap.client.Production)
         self.assertIsInstance(sandbox, coinmarketcap.client.Sandbox)
 
-
     def test_request(self):
         self.sandbox.session.cache.clear()
         urn = "cryptocurrency/listings/latest"
-        
+
         # check if data is fresh
         data = self.sandbox.request(urn, {})
         self.assertIsInstance(data, dict)
         self.assertFalse(data["cached"])
-        
+
         # check if data is cached
         data = self.sandbox.request(urn, {})
         self.assertIsInstance(data, dict)
@@ -63,6 +62,7 @@ class TestClient(unittest.TestCase):
         # check if exception is raised when wrong urn is given
         with self.assertRaises(requests.exceptions.HTTPError):
             self.sandbox.request("error", {})
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -5,7 +5,7 @@ from typing import Union
 import datetime
 
 # local
-from .parser import Parse
+from .parser import args
 
 
 class Info:
@@ -19,10 +19,10 @@ class Info:
     (rounded up).
     """
 
-    def __init__(self, request, parse, endpoint):
-        self.request = lambda x: request(urljoin(endpoint, "info"), parse(x))
+    def __init__(self, request, endpoint):
+        self.request = lambda x: request(urljoin(endpoint, "info"), args(**x))
 
-    def info_id(self, id: Union[list, str, int]):
+    def id(self, id: Union[list, str, int]):
         """
         Parameters
         ----------
@@ -36,7 +36,7 @@ class Info:
         """
         return self.request(locals())
 
-    def info_symbol(self, symbol: Union[list, str]):
+    def symbol(self, symbol: Union[list, str]):
         """
         Parameters
         ----------
@@ -65,8 +65,7 @@ class Map:
     equivalent, this data is only available via API.
     """
 
-    def __init__(self, request, parse, endpoint):
-        self.parse = parse
+    def __init__(self, request, endpoint):
         self.request = lambda x: request(urljoin(endpoint, "map"), x)
 
     def active_start(self, start=1, limit=100):
@@ -86,7 +85,7 @@ class Map:
         json object
             Respone schema - https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyMap
         """
-        return self.request(self.parse(locals()))
+        return self.request(args(**locals()))
 
     def active_symbol(self, symbol: Union[list, str]):
         """
@@ -100,7 +99,7 @@ class Map:
         json object
             Respone schema - https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyMap
         """
-        return self.request(self.parse(locals()))
+        return self.request(args(**locals()))
 
     def inactive(self):
         """
@@ -125,8 +124,8 @@ class Listings:
     (rounded up) and 1 call credit per convert option beyond the first.
     """
 
-    def __init__(self, request, parse, endpoint):
-        self.request = lambda x, y: request(urljoin(endpoint, "listings", x), parse(y))
+    def __init__(self, request, endpoint):
+        self.request = lambda x, y: request(urljoin(endpoint, "listings", x), args(y))
 
     def historical_start():
         raise NotImplementedError
@@ -192,9 +191,9 @@ class Pairs:
     pages: Our active cryptocurrency markets pages like
     """
 
-    def __init__(self, request, parse, endpoint):
+    def __init__(self, request, endpoint):
         self.request = lambda x: request(
-            urljoin(endpoint, "market-pairs/latest"), parse(x)
+            urljoin(endpoint, "market-pairs/latest"), args(x)
         )
 
     def id(self, id: Union[list, str, int], convert="USD"):
@@ -278,8 +277,8 @@ class Ohlcv:
     CMC equivalent pages: No equivalent, this data is only available via API.
     """
 
-    def __init__(self, request, parse, endpoint):
-        self.request = lambda x, y: request(urljoin(endpoint, "ohlvb", x), parse(y))
+    def __init__(self, request, endpoint):
+        self.request = lambda x, y: request(urljoin(endpoint, "ohlvb", x), args(y))
 
     def historical_id(
         self,
@@ -421,8 +420,8 @@ class Quotes:
     on time and interval parameters.
     """
 
-    def __init__(self, request, parse, endpoint):
-        self.request = lambda x, y: request(urljoin(endpoint, "quotes", x), parse(y))
+    def __init__(self, request, endpoint):
+        self.request = lambda x, y: request(urljoin(endpoint, "quotes", x), args(y))
 
     def historical_id(
         self,
@@ -544,7 +543,7 @@ class Quotes:
 
 class Cryptocurrency:
     def __init__(self, request):
-        args = (request, Parse().args, "cryptocurrency")
+        args = (request, "cryptocurrency")
         self.info = Info(*args)
         self.map = Map(*args)
         self.pairs = Pairs(*args)

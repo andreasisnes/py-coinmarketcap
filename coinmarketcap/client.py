@@ -22,8 +22,7 @@ class Client(Sandbox, Production):
         self.tools = Tools(self.request)
 
     def request(self, urn, params):
-        url = Request("GET", urljoin(self.url, urn), params).prepare().url
-
+        url = Request("GET", urljoin(self.url, urn), params=params).prepare().url
         # NOTE: race condition, but it should be harmless
         if self.session.cache.has_url(url):
             response = self._request(url)

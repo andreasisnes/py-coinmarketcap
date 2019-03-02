@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
-from .parser import Parse
+from .parser import args
 from typing import Union
 from os.path import join as urljoin
 import datetime
 
 
 class Info:
-    def __init__(self, request, parse, endpoint):
-        self.request = lambda x: request(urljoin(endpoint, "info"), parse(x))
+    def __init__(self, request, endpoint):
+        self.request = lambda x: request(urljoin(endpoint, "info"), args(x))
 
     def id(self, id: Union[list, str, int]):
         return self.request(locals())
@@ -18,23 +18,22 @@ class Info:
 
 
 class Map:
-    def __init__(self, request, parse, endpoint):
-        self.parse = parse
+    def __init__(self, request, endpoint):
         self.request = lambda x: request(urljoin(endpoint, "map"), x)
 
     def active_start(self, start=1, limit=100):
-        return self.request(self.parse(locals()))
+        return self.request(args(locals()))
 
     def active_slug(self, slug: Union[list, str]):
-        return self.request(self.parse(locals()))
+        return self.request(args(locals()))
 
     def inactive(self):
         return self.request({"listing_status": "inactive"})
 
 
 class Listings:
-    def __init__(self, request, parse, endpoint):
-        self.request = lambda x, y: request(urljoin(endpoint, "listings", x), parse(y))
+    def __init__(self, request, endpoint):
+        self.request = lambda x, y: request(urljoin(endpoint, "listings", x), args(y))
 
     def historical_start(self):
         raise NotImplementedError
@@ -52,9 +51,9 @@ class Listings:
 
 
 class Pairs:
-    def __init__(self, request, parse, endpoint):
+    def __init__(self, request, endpoint):
         self.request = lambda x: request(
-            urljoin(endpoint, "market-pairs/latest"), parse(x)
+            urljoin(endpoint, "market-pairs/latest"), args(x)
         )
 
     def id(self, id: Union[list, str, int], convert="USD"):
@@ -68,8 +67,8 @@ class Pairs:
 
 
 class Quotes:
-    def __init__(self, request, parse, endpoint):
-        self.request = lambda x, y: request(urljoin(endpoint, "quotes", x), parse(y))
+    def __init__(self, request, endpoint):
+        self.request = lambda x, y: request(urljoin(endpoint, "quotes", x), args(y))
 
     def historical_id(
         self,
@@ -102,7 +101,7 @@ class Quotes:
 
 class Exchange:
     def __init__(self, request):
-        args = (request, Parse().args, "exchange")
+        args = (request, "exchange")
         self.info = Info(*args)
         self.map = Map(*args)
         self.listings = Listings(*args)

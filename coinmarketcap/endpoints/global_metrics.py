@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
-from .parser import Parse
+from .parser import args
 from typing import Union
 from os.path import join as urljoin
 import datetime
 
 
 class Quotes:
-    def __init__(self, request, parse, endpoint):
-        self.request = lambda x, y: request(urljoin("quotes", x), parse(y))
+    def __init__(self, request, endpoint):
+        self.request = lambda x, y: request(urljoin("quotes", x), args(y))
 
     def historical(
         self,
@@ -26,5 +26,5 @@ class Quotes:
 
 class GlobalMetrics:
     def __init__(self, request):
-        args = (request, Parse().args, "global-metrics")
+        args = (request, "global-metrics")
         self.quotes = Quotes(*args)
