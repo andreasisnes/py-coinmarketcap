@@ -35,7 +35,7 @@ class Client(Sandbox, Production):
             res["cached"] = response.from_cache
             return res
         else:
-            response.raise_for_status
+            response.raise_for_status()
 
     def _request(self, url):
         return self.session.get(url)

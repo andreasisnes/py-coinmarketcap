@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from os.path import join, dirname
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 def read(fname):
@@ -13,8 +13,8 @@ setup(
     name="CoinMarketCap",
     version="0.0.1",
     url="https://github.com/ani071/coinmarketcap",
-    license="GNU",
-    packages=["coinmarketcap"],
+    license=read("LICENSE"),
+    packages=find_packages(exclude=("tests", "docs")),
     keywords=["CoinMarketCap", "API"],
     # Contact
     author="Andreas Isnes Nilsen",

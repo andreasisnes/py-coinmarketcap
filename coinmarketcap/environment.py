@@ -11,7 +11,7 @@ FILE = ".coinmarketcap.json"
 
 
 class Session:
-    def __init__(self, apikey, expire, cf, env):
+    def __init__(self, apikey, expire, cf):
         self.session = session(cf, "sqlite", expire)
         self.session.headers.update({"X-CMC_PRO_API_KEY": apikey})
         self.session.headers.update({"Accept": "application/json"})
@@ -23,18 +23,19 @@ class Sandbox(Session):
 
     def __init__(self, apikey, expire):
         cf = join(gettempdir(), "CoinMarketCap_sandbox")
-        try:
-            with open(join(Path.home(), FILE), "r") as fp:
-                keys = load(fp)
-            apikey = keys["sandbox"]
-
-        except FileNotFoundError:
+        if apikey is None:
             try:
-                apikey = environ["COINMARKETCAP_SANDBOX"]
-            except KeyError:
-                raise KeyError("Can not locate key.")
+                with open(join(Path.home(), FILE), "r") as fp:
+                    keys = load(fp)
+                apikey = keys["sandbox"]
 
-        super().__init__(apikey, expire, cf, "sandbox")
+            except FileNotFoundError:
+                try:
+                    apikey = environ["COINMARKETCAP_SANDBOX"]
+                except KeyError:
+                    raise KeyError("Can not locate key.")
+
+        Session.__init__(self, apikey, expire, cf)
 
 
 class Production(Session):
@@ -42,15 +43,16 @@ class Production(Session):
 
     def __init__(self, apikey, expire):
         cf = join(gettempdir(), "CoinMarketCap_production")
-        try:
-            with open(join(Path.home(), FILE), "r") as fp:
-                keys = load(fp)
-            apikey = keys["production"]
-
-        except FileNotFoundError:
+        if apikey is None:
             try:
-                apikey = environ["COINMARKETCAP_PRODUCTION"]
-            except KeyError:
-                raise KeyError("Can not locate key.")
+                with open(join(Path.home(), FILE), "r") as fp:
+                    keys = load(fp)
+                apikey = keys["production"]
 
-        super().__init__(apikey, expire, cf, "production")
+            except FileNotFoundError:
+                try:
+                    apikey = environ["COINMARKETCAP_PRODUCTION"]
+                except KeyError:
+                    raise KeyError("Can not locate key.")
+
+        Session.__init__(self, apikey, expire, cf)

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from typing import Union
-from datetime import datetime
+import datetime
 
 
 class Parse:
@@ -81,16 +81,16 @@ class Parse:
 
     def time(self, arg: Union[datetime.datetime, float]) -> str:
         if isinstance(arg, datetime):
-            return datetime.strftime("%Y-%m-%d")
+            return datetime.datetime.strftime("%Y-%m-%d")
         if isinstance(arg, float):
-            return datetime.fromtimestamp(arg).strftime("%Y-%m-%d")
+            return datetime.datetime.fromtimestamp(arg).strftime("%Y-%m-%d")
         else:
             raise ValueError
 
     def time_start(self, arg: Union[datetime.datetime, float]) -> str:
         return self.time(arg)
 
-    def time_end(self, arg: Union[datetime, float]) -> str:
+    def time_end(self, arg: Union[datetime.datetime, float]) -> str:
         return self.time(arg)
 
     def time_period(self, arg: str) -> str:
