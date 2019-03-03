@@ -320,7 +320,9 @@ class TestGlobalsMetrics(unittest.TestCase):
         end = datetime.strptime("2018-12-21", "%Y-%m-%d").timestamp()
         data = self.sandbox.quotes.historical(start, end)
         self.assertIsInstance(data["data"], dict)
+
         data = self.sandbox.quotes.historical()
+        self.assertIsInstance(data["data"], dict)
 
     def latest(self):
         data = self.sandbox.quotes.latest(convert="EUR")
@@ -336,9 +338,15 @@ class TestTools(unittest.TestCase):
         data = self.sandbox.price.convert_id(100, 1, time, convert="USD")
         self.assertIsInstance(data["data"], dict)
 
+        data = self.sandbox.price.convert_id(100, 2)
+        self.assertIsInstance(data["data"], dict)
+
     def test_price_convert_symbol(self):
         time = datetime.strptime("2018-12-21", "%Y-%m-%d").timestamp()
         data = self.sandbox.price.convert_symbol(100, "BTC", time, convert="USD")
+        self.assertIsInstance(data["data"], dict)
+
+        data = self.sandbox.price.convert_symbol(100, "BTC")
         self.assertIsInstance(data["data"], dict)
 
 

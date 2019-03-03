@@ -1,0 +1,10 @@
+\begin{sphinxtheindex}
+\let\bigletter\sphinxstyleindexlettergroup
+\let\spxpagem \sphinxstyleindexpagemain
+\let\spxentry \sphinxstyleindexentry
+\let\spxextra \sphinxstyleindexextra
+
+  \bigletter C
+  \item \spxentry{coinmarketcap}\spxextra{module}, \hyperpage{1}
+
+\end{sphinxtheindex}

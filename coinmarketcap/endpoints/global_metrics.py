@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from .parser import args
-from typing import Union
 from os.path import join as urljoin
-import datetime
 
 
 class Quotes:
@@ -32,11 +30,11 @@ class Quotes:
 
         Parameters
         ----------
-        time_start : `datetime.datetime`, `float` or `None`
+        time_start : `datetime.datetime` or `float`, optional
             Timestamp (datetime obj or Unix) to start returning quotes for.
             Optional, if none is passed it return quotes calculated in
             reverse from "time_end".
-        time_end : `datetime.datetime`, `float` or `None`
+        time_end : `datetime.datetime` or `float`, optional
             Timestamp (datetime obj or Unix) to stop returning quotes for
             (inclusive). Optional, if None is passed, it defaults to current
             time. If "time_start" is None, it return quotes in reverse order
@@ -47,29 +45,28 @@ class Quotes:
             The default is 10 items. The current query limit is 10000.
         interval : `str`, optional
             Interval of time to return data points for.
-            Supported minutes intervals are: "5m", "10m", "15m", "30m", "45m".
-            Supported hour intervals are: "1h", "2h", "3h", "6h", "12h".
-            Supported day intervals are: "1d", "2d", "3d", "7d", "14d", "15d",
-            "30d", "60d", "90d", "365d".
-            Other supported time periods are: "hourly", "daily", "weekly",
-            "monthly", "yearly".
+            Supported minutes intervals: {"5m", "10m", "15m", "30m", "45m"}.
+            Supported hour intervals: {"1h", "2h", "3h", "6h", "12h"}.
+            Supported day intervals: {"1d", "2d", "3d", "7d", "14d", "15d",
+            "30d", "60d", "90d", "365d"}.
+            Other supported time periods: {"hourly", "daily", "weekly",
+            "monthly", "yearly"}.
         convert : `str`, optional
             By default market quotes are returned in USD. Optionally calculate
             market quotes in another fiat currency or cryptocurrency.
 
         Returns
         -------
-        json object
-            schema - https://coinmarketcap.com/api/documentation/v1/#operation/getV1GlobalmetricsQuotesHistorical
+        `json obj`
+            Schema - https://coinmarketcap.com/api/documentation/v1/#operation/getV1GlobalmetricsQuotesHistorical
 
         Raises
         ------
         ValueError
-            Could not parse one of the arguments
+            If arguments are not parseable
 
         requests.exceptions.HTTPError
-            if status code is not 200
-
+            If status code is not 200
         """
         params = locals()
         if time_start is None:
@@ -80,6 +77,32 @@ class Quotes:
         return self.request("historical", params)
 
     def latest(self, convert="USD"):
+        """ Get the latest quote of aggregate market metrics. Use the
+        "convert" argument to return market values in multiple fiat and
+        cryptocurrency conversions in the same call.
+
+        Parameters
+        ----------
+        convert : `str` or `list` of `str`, optional
+            Calculate market quotes in up to 40 currencies at once. Each
+            additional convert option beyond the first requires an additional
+            call credit. Each conversion is returned in its own "quote"
+            object. A list of supported fiat options can be found here.
+            https://coinmarketcap.com/api/documentation/v1/#section/Standards-and-Conventions
+
+        Returns
+        -------
+        `json obj`
+            Schema - https://coinmarketcap.com/api/documentation/v1/#operation/getV1GlobalmetricsQuotesLatest
+
+        Raises
+        ------
+        ValueError
+            If argument is not parseable.
+
+        requests.exceptions.HTTPError
+            If status code is not 200
+        """
         return self.request("latest", locals())
 
 

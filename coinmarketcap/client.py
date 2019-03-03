@@ -3,6 +3,7 @@
 from requests import Request
 from json import loads
 from os.path import join as urljoin
+from requests.exceptions import HTTPError
 
 # local
 from .endpoints import Cryptocurrency, Exchange, GlobalMetrics, Tools
@@ -29,12 +30,14 @@ class Client(Sandbox, Production):
         else:
             response = self._request_throttle(url)
 
+        res = loads(response.text)
         if response.status_code == 200:
-            res = loads(response.text)
             res["cached"] = response.from_cache
             return res
         else:
-            response.raise_for_status()
+            raise HTTPError(
+                "%d - %s" % (response.status_code, res["status"]["error_message"])
+            )
 
     def _request(self, url):
         return self.session.get(url)
