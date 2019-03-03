@@ -3,7 +3,6 @@
 from .parser import args
 from typing import Union
 from os.path import join as urljoin
-import datetime
 
 
 class Price:
