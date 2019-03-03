@@ -8,6 +8,7 @@ from context import coinmarketcap
 
 pp = pprint.PrettyPrinter(indent=4).pprint
 
+
 class TestCryptocurrency(unittest.TestCase):
     def setUp(self):
         self.sandbox = coinmarketcap.Client(sandbox=True).cryptocurrency
@@ -87,12 +88,12 @@ class TestCryptocurrency(unittest.TestCase):
 
     # Test ohlcv
     def test_ohlcv_historical_id(self):
-        start = datetime.strptime("2018-12-20","%Y-%m-%d")
+        start = datetime.strptime("2018-12-20", "%Y-%m-%d")
         end = datetime.strptime("2018-12-21", "%Y-%m-%d")
         data_1 = self.sandbox.ohlcv.historical_id(1, start, end)
 
-        start = datetime.strptime("2018-12-20","%Y-%m-%d").timestamp()
-        end = datetime.strptime("2018-12-21","%Y-%m-%d").timestamp()
+        start = datetime.strptime("2018-12-20", "%Y-%m-%d").timestamp()
+        end = datetime.strptime("2018-12-21", "%Y-%m-%d").timestamp()
         data_2 = self.sandbox.ohlcv.historical_id("1", start, end)
 
         self.assertIsInstance(data_1["data"], dict)
@@ -100,13 +101,13 @@ class TestCryptocurrency(unittest.TestCase):
         self.assertEqual(data_1["data"], data_2["data"])
 
     def test_ohlcv_historical_symbol(self):
-        start = datetime.strptime("2018-12-20","%Y-%m-%d")
+        start = datetime.strptime("2018-12-20", "%Y-%m-%d")
         end = datetime.strptime("2018-12-21", "%Y-%m-%d")
         data = self.sandbox.ohlcv.historical_symbol("BTC", start, end)
         self.assertIsInstance(data["data"], dict)
 
-        start = datetime.strptime("2018-12-20","%Y-%m-%d").timestamp()
-        end = datetime.strptime("2018-12-21","%Y-%m-%d").timestamp()
+        start = datetime.strptime("2018-12-20", "%Y-%m-%d").timestamp()
+        end = datetime.strptime("2018-12-21", "%Y-%m-%d").timestamp()
         data = self.sandbox.ohlcv.historical_symbol("BTC", start, end)
         self.assertIsInstance(data["data"], dict)
 
@@ -126,7 +127,9 @@ class TestCryptocurrency(unittest.TestCase):
     def test_ohlcv_latest_symbol(self):
         data_1 = self.sandbox.ohlcv.latest_symbol("BTC")
         data_2 = self.sandbox.ohlcv.latest_symbol(["BTC", "ETH"])
-        data_3 = self.sandbox.ohlcv.latest_symbol(["BTC", "ETH"], convert=["USD", "EUR"])
+        data_3 = self.sandbox.ohlcv.latest_symbol(
+            ["BTC", "ETH"], convert=["USD", "EUR"]
+        )
 
         self.assertIsInstance(data_1["data"], dict)
         self.assertIsInstance(data_2["data"], dict)
@@ -138,12 +141,12 @@ class TestCryptocurrency(unittest.TestCase):
 
     # Test Quotes
     def test_quotes_historical_id(self):
-        start = datetime.strptime("2018-12-20","%Y-%m-%d")
+        start = datetime.strptime("2018-12-20", "%Y-%m-%d")
         end = datetime.strptime("2018-12-21", "%Y-%m-%d")
         data_1 = self.sandbox.quotes.historical_id(1, start, end)
 
-        start = datetime.strptime("2018-12-20","%Y-%m-%d").timestamp()
-        end = datetime.strptime("2018-12-21","%Y-%m-%d").timestamp()
+        start = datetime.strptime("2018-12-20", "%Y-%m-%d").timestamp()
+        end = datetime.strptime("2018-12-21", "%Y-%m-%d").timestamp()
         data_2 = self.sandbox.quotes.historical_id("1", start, end)
 
         self.assertIsInstance(data_1, dict)
@@ -151,13 +154,13 @@ class TestCryptocurrency(unittest.TestCase):
         self.assertEqual(data_1["data"], data_2["data"])
 
     def test_quotes_historical_symbol(self):
-        start = datetime.strptime("2018-12-20","%Y-%m-%d")
+        start = datetime.strptime("2018-12-20", "%Y-%m-%d")
         end = datetime.strptime("2018-12-21", "%Y-%m-%d")
         data = self.sandbox.quotes.historical_symbol("BTC", start, end)
         self.assertIsInstance(data["data"], dict)
 
-        start = datetime.strptime("2018-12-20","%Y-%m-%d").timestamp()
-        end = datetime.strptime("2018-12-21","%Y-%m-%d").timestamp()
+        start = datetime.strptime("2018-12-20", "%Y-%m-%d").timestamp()
+        end = datetime.strptime("2018-12-21", "%Y-%m-%d").timestamp()
         data = self.sandbox.quotes.historical_symbol("BTC", start, end)
         self.assertIsInstance(data["data"], dict)
 
@@ -165,7 +168,6 @@ class TestCryptocurrency(unittest.TestCase):
         data_1 = self.sandbox.quotes.latest_id(1)
         data_2 = self.sandbox.quotes.latest_id([1, 2])
         data_3 = self.sandbox.quotes.latest_id([1, 2], convert=["USD", "EUR"])
-
 
         self.assertIsInstance(data_1["data"], dict)
         self.assertIsInstance(data_2["data"], dict)
@@ -178,7 +180,9 @@ class TestCryptocurrency(unittest.TestCase):
     def test_quotes_latest_symbol(self):
         data_1 = self.sandbox.quotes.latest_symbol("BTC")
         data_2 = self.sandbox.quotes.latest_symbol(["BTC", "ETH"])
-        data_3 = self.sandbox.quotes.latest_symbol(["BTC", "ETH"], convert=["USD", "EUR"])
+        data_3 = self.sandbox.quotes.latest_symbol(
+            ["BTC", "ETH"], convert=["USD", "EUR"]
+        )
 
         self.assertIsInstance(data_1["data"], dict)
         self.assertIsInstance(data_2["data"], dict)
@@ -252,12 +256,12 @@ class TestExchange(unittest.TestCase):
         self.assertIsInstance(data["data"]["market_pairs"], list)
 
     def test_quotes_historical_id(self):
-        start = datetime.strptime("2018-12-20","%Y-%m-%d")
+        start = datetime.strptime("2018-12-20", "%Y-%m-%d")
         end = datetime.strptime("2018-12-21", "%Y-%m-%d")
         data_1 = self.sandbox.quotes.historical_id(270, start, end)
 
-        start = datetime.strptime("2018-12-20","%Y-%m-%d").timestamp()
-        end = datetime.strptime("2018-12-21","%Y-%m-%d").timestamp()
+        start = datetime.strptime("2018-12-20", "%Y-%m-%d").timestamp()
+        end = datetime.strptime("2018-12-21", "%Y-%m-%d").timestamp()
         data_2 = self.sandbox.quotes.historical_id("270", start, end)
 
         self.assertIsInstance(data_1["data"], dict)
@@ -265,12 +269,12 @@ class TestExchange(unittest.TestCase):
         self.assertEqual(data_1["data"], data_2["data"])
 
     def test_quotes_historical_slug(self):
-        start = datetime.strptime("2018-12-20","%Y-%m-%d")
+        start = datetime.strptime("2018-12-20", "%Y-%m-%d")
         end = datetime.strptime("2018-12-21", "%Y-%m-%d")
         data_1 = self.sandbox.quotes.historical_slug("binance", start, end)
 
-        start = datetime.strptime("2018-12-20","%Y-%m-%d").timestamp()
-        end = datetime.strptime("2018-12-21","%Y-%m-%d").timestamp()
+        start = datetime.strptime("2018-12-20", "%Y-%m-%d").timestamp()
+        end = datetime.strptime("2018-12-21", "%Y-%m-%d").timestamp()
         data_2 = self.sandbox.quotes.historical_slug("binance", start, end)
 
         self.assertIsInstance(data_1["data"], dict)
@@ -293,7 +297,9 @@ class TestExchange(unittest.TestCase):
     def test_quotes_latest_symbol(self):
         data_1 = self.sandbox.quotes.latest_slug("binance")
         data_2 = self.sandbox.quotes.latest_slug(["binance", "bittrex"])
-        data_3 = self.sandbox.quotes.latest_slug(["binance", "bittrex"], convert=["USD", "EUR"])
+        data_3 = self.sandbox.quotes.latest_slug(
+            ["binance", "bittrex"], convert=["USD", "EUR"]
+        )
 
         self.assertIsInstance(data_1["data"], dict)
         self.assertIsInstance(data_2["data"], dict)
@@ -304,15 +310,17 @@ class TestExchange(unittest.TestCase):
         self.assertEqual(len(data_3["data"]["binance"]["quote"]), 2)
         self.assertEqual(len(data_3["data"]["bittrex"]["quote"]), 2)
 
+
 class TestGlobalsMetrics(unittest.TestCase):
     def setUp(self):
         self.sandbox = coinmarketcap.Client(sandbox=True).global_metrics
 
     def test_quotes_historical(self):
-        start = datetime.strptime("2018-12-20","%Y-%m-%d").timestamp()
-        end = datetime.strptime("2018-12-21","%Y-%m-%d").timestamp()
+        start = datetime.strptime("2018-12-20", "%Y-%m-%d").timestamp()
+        end = datetime.strptime("2018-12-21", "%Y-%m-%d").timestamp()
         data = self.sandbox.quotes.historical(start, end)
         self.assertIsInstance(data["data"], dict)
+        data = self.sandbox.quotes.historical()
 
     def latest(self):
         data = self.sandbox.quotes.latest(convert="EUR")
@@ -324,12 +332,12 @@ class TestTools(unittest.TestCase):
         self.sandbox = coinmarketcap.Client(sandbox=True).tools
 
     def test_price_convert_id(self):
-        time = datetime.strptime("2018-12-21","%Y-%m-%d").timestamp()
+        time = datetime.strptime("2018-12-21", "%Y-%m-%d").timestamp()
         data = self.sandbox.price.convert_id(100, 1, time, convert="USD")
         self.assertIsInstance(data["data"], dict)
 
     def test_price_convert_symbol(self):
-        time = datetime.strptime("2018-12-21","%Y-%m-%d").timestamp()
+        time = datetime.strptime("2018-12-21", "%Y-%m-%d").timestamp()
         data = self.sandbox.price.convert_symbol(100, "BTC", time, convert="USD")
         self.assertIsInstance(data["data"], dict)
 

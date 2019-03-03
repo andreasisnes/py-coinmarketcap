@@ -92,7 +92,9 @@ def time(arg: Union[datetime.datetime, float]) -> str:
     if isinstance(arg, datetime.datetime):
         return datetime.datetime.strftime(arg, "%Y-%m-%d")
     if isinstance(arg, float):
-        return datetime.datetime.strftime(datetime.datetime.fromtimestamp(arg),"%Y-%m-%d")
+        return datetime.datetime.strftime(
+            datetime.datetime.fromtimestamp(arg), "%Y-%m-%d"
+        )
     else:
         raise ValueError
 
@@ -143,6 +145,7 @@ def market_type(arg: str) -> str:
         return arg
     else:
         raise ValueError
+
 
 def amount(arg: Union[float, int, str]) -> str:
     return str(arg)
