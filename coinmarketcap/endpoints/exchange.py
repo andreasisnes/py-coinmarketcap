@@ -8,7 +8,7 @@ import datetime
 
 class Info:
     def __init__(self, request, endpoint):
-        self.request = lambda x: request(urljoin(endpoint, "info"), args(x))
+        self.request = lambda x: request(urljoin(endpoint, "info"), args(**x))
 
     def id(self, id: Union[list, str, int]):
         return self.request(locals())
@@ -22,10 +22,10 @@ class Map:
         self.request = lambda x: request(urljoin(endpoint, "map"), x)
 
     def active_start(self, start=1, limit=100):
-        return self.request(args(locals()))
+        return self.request(args(**locals()))
 
     def active_slug(self, slug: Union[list, str]):
-        return self.request(args(locals()))
+        return self.request(args(**locals()))
 
     def inactive(self):
         return self.request({"listing_status": "inactive"})
@@ -33,12 +33,12 @@ class Map:
 
 class Listings:
     def __init__(self, request, endpoint):
-        self.request = lambda x, y: request(urljoin(endpoint, "listings", x), args(y))
+        self.request = lambda x, y: request(urljoin(endpoint, "listings", x), args(**y))
 
     def historical_start(self):
         raise NotImplementedError
 
-    def latetest_start(
+    def latest_start(
         self,
         start=1,
         limit=100,
@@ -53,22 +53,19 @@ class Listings:
 class Pairs:
     def __init__(self, request, endpoint):
         self.request = lambda x: request(
-            urljoin(endpoint, "market-pairs/latest"), args(x)
+            urljoin(endpoint, "market-pairs/latest"), args(**x)
         )
 
-    def id(self, id: Union[list, str, int], convert="USD"):
+    def id(self, id: Union[list, str, int], start=1, limit=100, convert="USD"):
         return self.request(locals())
 
-    def slug(self, slug: Union[list, str], convert="USD"):
-        return self.request(locals())
-
-    def start(self, start=1, limit=100, convert="USD"):
+    def slug(self, slug: Union[list, str], start=1, limit=100, convert="USD"):
         return self.request(locals())
 
 
 class Quotes:
     def __init__(self, request, endpoint):
-        self.request = lambda x, y: request(urljoin(endpoint, "quotes", x), args(y))
+        self.request = lambda x, y: request(urljoin(endpoint, "quotes", x), args(**y))
 
     def historical_id(
         self,

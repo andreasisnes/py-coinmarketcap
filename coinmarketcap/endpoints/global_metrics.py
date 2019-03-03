@@ -8,7 +8,7 @@ import datetime
 
 class Quotes:
     def __init__(self, request, endpoint):
-        self.request = lambda x, y: request(urljoin("quotes", x), args(y))
+        self.request = lambda x, y: request(urljoin(endpoint, "quotes", x), args(**y))
 
     def historical(
         self,

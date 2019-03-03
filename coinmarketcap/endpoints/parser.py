@@ -55,14 +55,14 @@ def convert(arg: Union[str, list]) -> str:
 
 def start(arg: int) -> str:
     if isinstance(arg, int):
-        return arg
+        return str(arg)
     else:
         raise ValueError
 
 
 def limit(arg: int) -> str:
     if isinstance(arg, int):
-        return arg
+        return str(arg)
     else:
         raise ValueError
 
@@ -89,10 +89,10 @@ def cryptocurrency_type(arg: str) -> str:
 
 
 def time(arg: Union[datetime.datetime, float]) -> str:
-    if isinstance(arg, datetime):
-        return datetime.datetime.strftime("%Y-%m-%d")
+    if isinstance(arg, datetime.datetime):
+        return datetime.datetime.strftime(arg, "%Y-%m-%d")
     if isinstance(arg, float):
-        return datetime.datetime.fromtimestamp(arg).strftime("%Y-%m-%d")
+        return datetime.datetime.strftime(datetime.datetime.fromtimestamp(arg),"%Y-%m-%d")
     else:
         raise ValueError
 
@@ -114,7 +114,7 @@ def time_period(arg: str) -> str:
 
 def count(arg: int) -> int:
     if isinstance(arg, int):
-        return arg
+        return str(arg)
     else:
         raise ValueError
 
@@ -143,3 +143,6 @@ def market_type(arg: str) -> str:
         return arg
     else:
         raise ValueError
+
+def amount(arg: Union[float, int, str]) -> str:
+    return str(arg)

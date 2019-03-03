@@ -8,7 +8,7 @@ import datetime
 
 class Price:
     def __init__(self, request, endpoint):
-        self.request = lambda x: request(urljoin(endpoint, "price-conversion"), args(x))
+        self.request = lambda x: request(urljoin(endpoint, "price-conversion"), args(**x))
 
     def convert_id(
         self,

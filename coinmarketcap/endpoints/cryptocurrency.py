@@ -125,9 +125,9 @@ class Listings:
     """
 
     def __init__(self, request, endpoint):
-        self.request = lambda x, y: request(urljoin(endpoint, "listings", x), args(y))
+        self.request = lambda x, y: request(urljoin(endpoint, "listings", x), args(**y))
 
-    def historical_start():
+    def historical_start(self):
         raise NotImplementedError
 
     def latest_start(
@@ -193,15 +193,15 @@ class Pairs:
 
     def __init__(self, request, endpoint):
         self.request = lambda x: request(
-            urljoin(endpoint, "market-pairs/latest"), args(x)
+            urljoin(endpoint, "market-pairs/latest"), args(**x)
         )
 
-    def id(self, id: Union[list, str, int], convert="USD"):
+    def id(self, id: Union[str, int], start=1, limit=100, convert="USD"):
         """
         Parameters
         ----------
-        id : [list, str, int]
-            One or a list of CoinMarketCap cryptocurrency IDs. Example: "1,2"
+        id : [str, int]
+            One CoinMarketCap cryptocurrency IDs. Example: "1"
         convert : [str, list], "USD" (default)
            Optionally calculate market quotes in up to 40 currencies at once
            by passing a list of cryptocurrency or fiat currency symbols.
@@ -217,12 +217,12 @@ class Pairs:
         """
         return self.request(locals())
 
-    def symbol(self, symbol: Union[list, str], convert="USD"):
+    def symbol(self, symbol: str, start=1, limit=100, convert="USD"):
         """
         Parameters
         ----------
-        symbol : [list, str]
-            One or a list of cryptocurrency symbols. Example: "BTC,ETH".
+        symbol : str
+            One or cryptocurrency symbols. Example: "BTC".
         convert : [str, list], "USD" (default)
            Optionally calculate market quotes in up to 40 currencies at once
            by passing a list of cryptocurrency or fiat currency symbols.
@@ -230,32 +230,6 @@ class Pairs:
            additional call credit. Each conversion is returned in its own
            "quote" object. A list of supported fiat options can be
            found here https://coinmarketcap.com/api/documentation/v1/#section/Standards-and-Conventions.
-
-        Returns
-        -------
-        json object
-            Respone schema - https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyMarketpairsLatest
-        """
-        return self.request(locals())
-
-    def start(self, start=1, limit=100, convert="USD"):
-        """
-        Parameters
-        ----------
-        start : int, 1 (default), >= 1
-            Optionally offset the start (1-based index) of the paginated list
-            of items to return.
-        limit : int, 100 (default), [ 1 .. 5000 ]
-            Optionally specify the number of results to return. Use this
-            parameter and the "start" parameter to determine your own
-            pagination size.
-         convert : [str, list], "USD" (default)
-            Optionally calculate market quotes in up to 40 currencies at once
-            by passing a list of cryptocurrency or fiat currency symbols.
-            Each additional convert option beyond the first requires an
-            additional call credit. Each conversion is returned in its own
-            "quote" object. A list of supported fiat options can be
-            found here https://coinmarketcap.com/api/documentation/v1/#section/Standards-and-Conventions.
 
         Returns
         -------
@@ -278,7 +252,7 @@ class Ohlcv:
     """
 
     def __init__(self, request, endpoint):
-        self.request = lambda x, y: request(urljoin(endpoint, "ohlvb", x), args(y))
+        self.request = lambda x, y: request(urljoin(endpoint, "ohlcv", x), args(**y))
 
     def historical_id(
         self,
@@ -421,7 +395,7 @@ class Quotes:
     """
 
     def __init__(self, request, endpoint):
-        self.request = lambda x, y: request(urljoin(endpoint, "quotes", x), args(y))
+        self.request = lambda x, y: request(urljoin(endpoint, "quotes", x), args(**y))
 
     def historical_id(
         self,
