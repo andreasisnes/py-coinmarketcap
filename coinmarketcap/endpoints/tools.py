@@ -29,11 +29,7 @@ class Price:
         id : `int` or `str`
             The CoinMarketCap currency ID of the base cryptocurrency or fiat
             to convert from. Example: "1"
-        time : `int`, optional
-            The number of interval periods to return results for. Optional,
-            required if both "time_start" and "time_end" aren't supplied.
-            The default is 10 items. The current query limit is 10000.
-        time : `datetime.datetime` or `float`
+        time : `datetime.datetime` or `float`, optional
             Timestamp (datetime obj or Unix) to reference historical pricing
             during conversion. If not passed, the current time will be used.
             If passed, we'll reference the closest historic values available
@@ -74,11 +70,7 @@ class Price:
         symbol : `str`
             Currency symbol of the base cryptocurrency or fiat to convert
             from. Example: "BTC".
-        time : `int`, optional
-            The number of interval periods to return results for. Optional,
-            required if both "time_start" and "time_end" aren't supplied.
-            The default is 10 items. The current query limit is 10000.
-        time : `datetime.datetime` or `float`
+        time : `datetime.datetime` or `float`, optional
             Timestamp (datetime obj or Unix) to reference historical pricing
             during conversion. If not passed, the current time will be used.
             If passed, we'll reference the closest historic values available
