@@ -9,8 +9,6 @@ import datetime
 class Price:
     """ Convert an amount of one currency into multiple cryptocurrencies
     or fiat currencies at the same time using the latest market averages.
-    Optionally pass a historical timestamp to convert values based on
-    historic averages.
     """
 
     def __init__(self, request, endpoint):
@@ -21,7 +19,9 @@ class Price:
     def convert_id(
         self, amount: [int, float, str], id: Union[str, int], time=None, convert="USD"
     ):
-        """
+        """ Convert an amount of one currency into multiple cryptocurrencies
+        or fiat currencies at the same time using the latest market averages.
+
         Parameters
         ----------
         amount : `int`, `float` or `str`
@@ -31,9 +31,9 @@ class Price:
             to convert from. Example: "1"
         time : `datetime.datetime` or `float`, optional
             Timestamp (datetime obj or Unix) to reference historical pricing
-            during conversion. If not passed, the current time will be used.
-            If passed, we'll reference the closest historic values available
-            for this conversion.
+            during conversion. If None is passed, the current time will be
+            used. If passed, the closest historic values available will be
+            used for this conversion.
         convert : `str`, optional
             Calculate market quotes in up to 40 currencies at once. Each
             additional convert option beyond the first requires an additional
@@ -62,7 +62,9 @@ class Price:
     def convert_symbol(
         self, amount: [int, float], symbol: str, time=None, convert="USD"
     ):
-        """
+        """ Convert an amount of one currency into multiple cryptocurrencies
+        or fiat currencies at the same time using the latest market averages.
+
         Parameters
         ----------
         amount : `int`, `float` or `str`
@@ -72,9 +74,9 @@ class Price:
             from. Example: "BTC".
         time : `datetime.datetime` or `float`, optional
             Timestamp (datetime obj or Unix) to reference historical pricing
-            during conversion. If not passed, the current time will be used.
-            If passed, we'll reference the closest historic values available
-            for this conversion.
+            during conversion. If None is passed, the current time will be
+            used. If passed, the closest historic values available will be
+            used for this conversion.
         convert : `str`, optional
             Calculate market quotes in up to 40 currencies at once. Each
             additional convert option beyond the first requires an additional
