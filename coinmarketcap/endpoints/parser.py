@@ -26,7 +26,7 @@ def id(arg: Union[int, str, list]) -> int:
         else:
             raise ValueError
     else:
-        raise ValueError
+        return str(arg)
 
 
 def symbol(arg: Union[str, list]) -> str:
@@ -38,7 +38,7 @@ def symbol(arg: Union[str, list]) -> str:
         else:
             raise ValueError
     else:
-        raise ValueError
+        return str(arg)
 
 
 def convert(arg: Union[str, list]) -> str:
@@ -50,82 +50,56 @@ def convert(arg: Union[str, list]) -> str:
         else:
             raise ValueError
     else:
-        raise ValueError
+        return str(arg)
 
 
 def start(arg: int) -> str:
-    if isinstance(arg, int):
-        return str(arg)
-    else:
-        raise ValueError
+    return str(arg)
 
 
 def limit(arg: int) -> str:
-    if isinstance(arg, int):
-        return str(arg)
-    else:
-        raise ValueError
+    return str(arg)
 
 
 def sort(arg: str) -> str:
-    if isinstance(arg, str):
-        return arg
-    else:
-        raise ValueError
+    return str(arg)
 
 
 def sort_dir(arg: str) -> str:
-    if isinstance(arg, str):
-        return arg
-    else:
-        raise ValueError
+    return str(arg)
 
 
 def cryptocurrency_type(arg: str) -> str:
-    if isinstance(arg, str):
-        return arg
-    else:
-        raise ValueError
+    return str(arg)
 
 
-def time(arg: Union[datetime.datetime, float]) -> str:
+def time(arg: Union[datetime.datetime, float, str]) -> str:
     if isinstance(arg, datetime.datetime):
-        return datetime.datetime.strftime(arg, "%Y-%m-%d")
+        return arg.isoformat()
     if isinstance(arg, float):
-        return datetime.datetime.strftime(
-            datetime.datetime.fromtimestamp(arg), "%Y-%m-%d"
-        )
+        return datetime.datetime.fromtimestamp(arg).isoformat()
     else:
-        raise ValueError
+        return str(arg)
 
 
-def time_start(arg: Union[datetime.datetime, float]) -> str:
+def time_start(arg: Union[datetime.datetime, float, str]) -> str:
     return time(arg)
 
 
-def time_end(arg: Union[datetime.datetime, float]) -> str:
+def time_end(arg: Union[datetime.datetime, float, str]) -> str:
     return time(arg)
 
 
 def time_period(arg: str) -> str:
-    if isinstance(arg, str):
-        return arg
-    else:
-        raise ValueError
+    return str(arg)
 
 
 def count(arg: int) -> int:
-    if isinstance(arg, int):
-        return str(arg)
-    else:
-        raise ValueError
+    return str(arg)
 
 
 def interval(arg: str) -> str:
-    if isinstance(arg, str):
-        return arg
-    else:
-        raise ValueError
+    return str(arg)
 
 
 def slug(arg: Union[str, list]) -> str:
@@ -137,14 +111,11 @@ def slug(arg: Union[str, list]) -> str:
         else:
             raise ValueError
     else:
-        raise ValueError
+        return str(arg)
 
 
 def market_type(arg: str) -> str:
-    if isinstance(arg, str):
-        return arg
-    else:
-        raise ValueError
+    return str(arg)
 
 
 def amount(arg: Union[float, int, str]) -> str:

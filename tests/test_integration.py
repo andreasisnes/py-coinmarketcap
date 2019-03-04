@@ -1,31 +1,28 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-import pprint
 
 from datetime import datetime
 from context import coinmarketcap
-
-pp = pprint.PrettyPrinter(indent=4).pprint
 
 
 class TestCryptocurrency(unittest.TestCase):
     def setUp(self):
         self.sandbox = coinmarketcap.Client(sandbox=True).cryptocurrency
 
-    def test_info_id(self):
-        data_1 = self.sandbox.info.id(1)
-        data_2 = self.sandbox.info.id("2")
+    def test_info_ids(self):
+        data_1 = self.sandbox.info.ids(1)
+        data_2 = self.sandbox.info.ids("2")
         self.assertIsInstance(data_1, dict)
         self.assertIsInstance(data_2, dict)
 
-        data_3 = self.sandbox.info.id([1, 2])
-        data_4 = self.sandbox.info.id(["1", "2"])
+        data_3 = self.sandbox.info.ids([1, 2])
+        data_4 = self.sandbox.info.ids(["1", "2"])
         self.assertEqual(data_3["data"], data_4["data"])
 
-    def test_info_symbol(self):
-        data_1 = self.sandbox.info.symbol("BTC")
-        data_2 = self.sandbox.info.symbol("ETH")
+    def test_info_symbols(self):
+        data_1 = self.sandbox.info.symbols("BTC")
+        data_2 = self.sandbox.info.symbols("ETH")
         self.assertIsInstance(data_1, dict)
         self.assertIsInstance(data_2, dict)
 
@@ -37,9 +34,9 @@ class TestCryptocurrency(unittest.TestCase):
         self.assertEqual(len(data_1["data"]), 100)
         self.assertEqual(len(data_2["data"]), 200)
 
-    def test_map_active_symbol(self):
-        data_1 = self.sandbox.map.active_symbol("BTC")
-        data_2 = self.sandbox.map.active_symbol(["BTC", "ETH"])
+    def test_map_active_symbols(self):
+        data_1 = self.sandbox.map.active_symbols("BTC")
+        data_2 = self.sandbox.map.active_symbols(["BTC", "ETH"])
         self.assertEqual(len(data_1["data"]), 1)
         self.assertEqual(len(data_2["data"]), 2)
         self.assertIsInstance(data_1, dict)
@@ -111,10 +108,10 @@ class TestCryptocurrency(unittest.TestCase):
         data = self.sandbox.ohlcv.historical_symbol("BTC", start, end)
         self.assertIsInstance(data["data"], dict)
 
-    def test_ohlcv_latest_id(self):
-        data_1 = self.sandbox.ohlcv.latest_id(1)
-        data_2 = self.sandbox.ohlcv.latest_id([1, 2])
-        data_3 = self.sandbox.ohlcv.latest_id([1, 2], convert=["USD", "EUR"])
+    def test_ohlcv_latest_ids(self):
+        data_1 = self.sandbox.ohlcv.latest_ids(1)
+        data_2 = self.sandbox.ohlcv.latest_ids([1, 2])
+        data_3 = self.sandbox.ohlcv.latest_ids([1, 2], convert=["USD", "EUR"])
 
         self.assertIsInstance(data_1["data"], dict)
         self.assertIsInstance(data_2["data"], dict)
@@ -124,10 +121,10 @@ class TestCryptocurrency(unittest.TestCase):
         self.assertEqual(len(data_2["data"]), 2)
         self.assertEqual(len(data_3["data"]["1"]["quote"]), 2)
 
-    def test_ohlcv_latest_symbol(self):
-        data_1 = self.sandbox.ohlcv.latest_symbol("BTC")
-        data_2 = self.sandbox.ohlcv.latest_symbol(["BTC", "ETH"])
-        data_3 = self.sandbox.ohlcv.latest_symbol(
+    def test_ohlcv_latest_symbols(self):
+        data_1 = self.sandbox.ohlcv.latest_symbols("BTC")
+        data_2 = self.sandbox.ohlcv.latest_symbols(["BTC", "ETH"])
+        data_3 = self.sandbox.ohlcv.latest_symbols(
             ["BTC", "ETH"], convert=["USD", "EUR"]
         )
 
@@ -164,10 +161,10 @@ class TestCryptocurrency(unittest.TestCase):
         data = self.sandbox.quotes.historical_symbol("BTC", start, end)
         self.assertIsInstance(data["data"], dict)
 
-    def test_quotes_latest_id(self):
-        data_1 = self.sandbox.quotes.latest_id(1)
-        data_2 = self.sandbox.quotes.latest_id([1, 2])
-        data_3 = self.sandbox.quotes.latest_id([1, 2], convert=["USD", "EUR"])
+    def test_quotes_latest_ids(self):
+        data_1 = self.sandbox.quotes.latest_ids(1)
+        data_2 = self.sandbox.quotes.latest_ids([1, 2])
+        data_3 = self.sandbox.quotes.latest_ids([1, 2], convert=["USD", "EUR"])
 
         self.assertIsInstance(data_1["data"], dict)
         self.assertIsInstance(data_2["data"], dict)
@@ -177,10 +174,10 @@ class TestCryptocurrency(unittest.TestCase):
         self.assertEqual(len(data_2["data"]), 2)
         self.assertEqual(len(data_3["data"]["1"]["quote"]), 2)
 
-    def test_quotes_latest_symbol(self):
-        data_1 = self.sandbox.quotes.latest_symbol("BTC")
-        data_2 = self.sandbox.quotes.latest_symbol(["BTC", "ETH"])
-        data_3 = self.sandbox.quotes.latest_symbol(
+    def test_quotes_latest_symbols(self):
+        data_1 = self.sandbox.quotes.latest_symbols("BTC")
+        data_2 = self.sandbox.quotes.latest_symbols(["BTC", "ETH"])
+        data_3 = self.sandbox.quotes.latest_symbols(
             ["BTC", "ETH"], convert=["USD", "EUR"]
         )
 
@@ -197,19 +194,19 @@ class TestExchange(unittest.TestCase):
     def setUp(self):
         self.sandbox = coinmarketcap.Client(sandbox=True).exchange
 
-    def test_info_id(self):
-        data_1 = self.sandbox.info.id(1)
-        data_2 = self.sandbox.info.id("2")
-        data_3 = self.sandbox.info.id([1, 2])
+    def test_info_ids(self):
+        data_1 = self.sandbox.info.ids(1)
+        data_2 = self.sandbox.info.ids("2")
+        data_3 = self.sandbox.info.ids([1, 2])
 
         self.assertIsInstance(data_1["data"], dict)
         self.assertIsInstance(data_2["data"], dict)
         self.assertIsInstance(data_3["data"], dict)
 
-    def test_info_slug(self):
-        data_1 = self.sandbox.info.slug("binance")
-        data_2 = self.sandbox.info.slug("bittrex")
-        data_3 = self.sandbox.info.slug(["binance", "bittrex"])
+    def test_info_slugs(self):
+        data_1 = self.sandbox.info.slugs("binance")
+        data_2 = self.sandbox.info.slugs("bittrex")
+        data_3 = self.sandbox.info.slugs(["binance", "bittrex"])
 
         self.assertIsInstance(data_1["data"], dict)
         self.assertIsInstance(data_2["data"], dict)
@@ -223,9 +220,9 @@ class TestExchange(unittest.TestCase):
         self.assertIsInstance(data_2["data"], list)
         self.assertGreater(len(data_2["data"]), len(data_1["data"]))
 
-    def test_map_active_symbol(self):
-        data_1 = self.sandbox.map.active_slug("binance")
-        data_2 = self.sandbox.map.active_slug(["binance", "bittrex"])
+    def test_map_active_slugs(self):
+        data_1 = self.sandbox.map.active_slugs("binance")
+        data_2 = self.sandbox.map.active_slugs(["binance", "bittrex"])
 
         self.assertIsInstance(data_1["data"], list)
         self.assertIsInstance(data_2["data"], list)
@@ -281,10 +278,10 @@ class TestExchange(unittest.TestCase):
         self.assertIsInstance(data_2["data"], dict)
         self.assertEqual(data_1["data"], data_2["data"])
 
-    def test_quotes_latest_id(self):
-        data_1 = self.sandbox.quotes.latest_id(270)
-        data_2 = self.sandbox.quotes.latest_id([270, 22])
-        data_3 = self.sandbox.quotes.latest_id([270, 22], convert=["USD", "EUR"])
+    def test_quotes_latest_ids(self):
+        data_1 = self.sandbox.quotes.latest_ids(270)
+        data_2 = self.sandbox.quotes.latest_ids([270, 22])
+        data_3 = self.sandbox.quotes.latest_ids([270, 22], convert=["USD", "EUR"])
 
         self.assertIsInstance(data_1["data"], dict)
         self.assertIsInstance(data_2["data"], dict)
@@ -294,10 +291,10 @@ class TestExchange(unittest.TestCase):
         self.assertEqual(len(data_2["data"]), 2)
         self.assertEqual(len(data_3["data"]["22"]["quote"]), 2)
 
-    def test_quotes_latest_symbol(self):
-        data_1 = self.sandbox.quotes.latest_slug("binance")
-        data_2 = self.sandbox.quotes.latest_slug(["binance", "bittrex"])
-        data_3 = self.sandbox.quotes.latest_slug(
+    def test_quotes_latest_slugs(self):
+        data_1 = self.sandbox.quotes.latest_slugs("binance")
+        data_2 = self.sandbox.quotes.latest_slugs(["binance", "bittrex"])
+        data_3 = self.sandbox.quotes.latest_slugs(
             ["binance", "bittrex"], convert=["USD", "EUR"]
         )
 
@@ -334,8 +331,8 @@ class TestTools(unittest.TestCase):
         self.sandbox = coinmarketcap.Client(sandbox=True).tools
 
     def test_price_convert_id(self):
-        time = datetime.strptime("2018-12-21", "%Y-%m-%d").timestamp()
-        data = self.sandbox.price.convert_id(100, 1, time, convert="USD")
+        time = datetime.strptime("2018-12-21", "%Y-%m-%d")
+        data = self.sandbox.price.convert_id(100.15, 1, time, convert="USD")
         self.assertIsInstance(data["data"], dict)
 
         data = self.sandbox.price.convert_id(100, 2)

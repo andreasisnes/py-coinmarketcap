@@ -5,7 +5,7 @@ from os.path import join as urljoin
 
 
 class Quotes:
-    """ Get the latest or historic quote of aggregate market metrics. """
+    """ Get the latest or historic quote of aggregated market metrics. """
 
     def __init__(self, request, endpoint):
         self.request = lambda x, y: request(urljoin(endpoint, "quotes", x), args(**y))
@@ -52,8 +52,9 @@ class Quotes:
             Other supported time periods: {"hourly", "daily", "weekly",
             "monthly", "yearly"}.
         convert : `str`, optional
-            By default market quotes are returned in USD. Optionally calculate
-            market quotes in another fiat currency or cryptocurrency.
+            Calculate market quotes in another fiat currency or cryptocurrency..
+            A list of supported fiat options can be found here.
+            https://coinmarketcap.com/api/documentation/v1/#section/Standards-and-Conventions
 
         Returns
         -------
