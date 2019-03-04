@@ -14,10 +14,10 @@ class Client(Sandbox, Production):
     def __init__(
         self,
         apikey=None,
-        plan="hobbyist",
+        plan="free",
         expire=3600,
         sandbox=False,
-        throttle="monthly",
+        throttle=None,
         block=True,
     ):
         if sandbox:
