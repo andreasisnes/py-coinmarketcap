@@ -49,7 +49,7 @@ class Client(Sandbox, Production):
                     "%d - %s" % (response.status_code, res["status"]["error_message"])
                 )
             except KeyError:
-                raise HTTPError(response.status_code)
+                raise response.raise_for_status()
 
     def _request(self, url):
         return self.session.get(url)

@@ -110,10 +110,10 @@ class Plan:
 class Throttler(Plan):
     def __init__(self, plan, throttle, block):
         Plan.__init__(self, plan)
-        self.throttling = True
-        self.lock = Lock
-        scheme = (0, 0)
 
+        self.lock = Lock()
+        scheme = (0, 0)
+        self.throttling = True
         if throttle is None:
             self.throttling = False
         elif throttle == "minute":
@@ -124,9 +124,8 @@ class Throttler(Plan):
             scheme = self.monthly
         else:
             raise ValueError("Argument throttle must be either ")
-        print(scheme)
 
-        self.limit = limits(*scheme, raise_on_limit=block)(lambda x: None)
+        self.limit = limits(*scheme, raise_on_limit=block)(lambda: None)
         self.sleep = sleep_and_retry(self.limit)
         self.block = block
 
@@ -134,6 +133,6 @@ class Throttler(Plan):
         if self.throttling:
             with self.lock:
                 if self.block:
-                    self.sleep(credit)
+                    self.sleep()
                 else:
-                    self.limit(credit)
+                    self.limit()
