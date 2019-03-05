@@ -18,6 +18,9 @@ pypi_test:
 pipi_prod:
 	twine upload dist/*
 
+coverage:
+	py.test --cov=coinmarketcap tests/
+
 clean:
 	@find . -type f -name ".mypy_cache" -print0 | xargs -r0 -- rm -r
 	@find . -type d -name ".pytest_cache" -print0 | xargs -r0 -- rm -r

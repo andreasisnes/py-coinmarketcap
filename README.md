@@ -1,13 +1,19 @@
+![Coverage](https://img.shields.io/badge/coverage-89%25-yellowgreen.svg)
+![Python](https://img.shields.io/badge/Python-3.7-brightgreen.svg)
+![Version](https://img.shields.io/badge/Version-0.1-brightgreen.svg)
+![License](https://img.shields.io/badge/License-MIT-green.svg)
+
 # CoinMarketCap
-coinmarketcap
+Python module to send requests CoinMarketCap v1 API.
+## Authentication
 
 
-# Installing
-```console
-pip install CoinMarketCapAPI
+## Installing
+```terminal
+python3 -m pip install CoinMarketCapAPI
 ```
 
-# Examples
+## Examples
 Init client with an API Key.
 ```python
 from coinmarketcap import Client
@@ -48,7 +54,8 @@ client.tools.price.convert_symbol(amount_2, "BTC", convert=["USD", "ETH"])
 
 Due to CoinMarketCap's credit and rate limit system, implementing a proper request throttler is complex. Anyway, I tried to apply three different levels of throttling. WARNING, this module has no perception of credits, only requests.
 
-```python
+```python  
+
 from coinmarketcap import Client
 # By default throttling of requests are off.
 # Ignore the Client's keyword arguments "throttle", "plan", and "block" if
@@ -84,3 +91,7 @@ client = Client(expire=3600)
 client.clear_cache()
 
 ```
+
+## TODO
+* Enable Proper throttling of requests.
+* Testing of different python versions.

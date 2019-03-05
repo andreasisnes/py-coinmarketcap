@@ -41,7 +41,7 @@ class TestClient(unittest.TestCase):
 
         # Test key
         self.production = coinmarketcap.Client(apikey=prod_env)
-        self.sandbox = coinmarketcap.Client(apikey=sand_env)
+        self.sandbox = coinmarketcap.Client(apikey=sand_env, sandbox=True)
         self.assertIsInstance(production, coinmarketcap.client.Production)
         self.assertIsInstance(sandbox, coinmarketcap.client.Sandbox)
 
