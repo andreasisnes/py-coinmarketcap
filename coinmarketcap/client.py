@@ -29,13 +29,13 @@ class Client(Sandbox, Production):
         self.global_metrics = GlobalMetrics(self.request)
         self.exchange = Exchange(self.request)
         self.tools = Tools(self.request)
-        self.throttler = Throttler(plan, throttle, block)
+        self._throttler = Throttler(plan, throttle, block)
 
     def request(self, urn, params):
-        url = Request("GET", urljoin(self.url, urn), params=params).prepare().url
+        url = Request("GET", urljoin(self._url, urn), params=params).prepare().url
         # NOTE: race condition, but it should be harmless
-        if self.session.cache.has_url(url):
-            response = self._request(url)
+        if self._session.cache.has_url(url):
+            response = self._request_cache(url)
         else:
             response = self._request_throttle(url)
 
@@ -51,17 +51,17 @@ class Client(Sandbox, Production):
             except KeyError:
                 raise response.raise_for_status()
 
-    def _request(self, url):
-        return self.session.get(url)
+    def _request_cache(self, url):
+        return self._session.get(url)
 
     def _request_throttle(self, url):
-        self.throttler.throttle()
-        return self.session.get(url)
+        self._throttler.throttle()
+        return self._session.get(url)
 
     @property
     def plan(self):
-        return self.throttler.plan
+        return self._throttler.plan
 
     @plan.setter
     def plan(self, minute=0, daily=0, monthly=0):
-        self.throttler.plan(minute, daily, monthly)
+        self._throttler.plan(minute, daily, monthly)

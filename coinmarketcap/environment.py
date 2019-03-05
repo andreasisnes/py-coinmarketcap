@@ -16,14 +16,17 @@ FILE = ".coinmarketcap.json"
 
 class Session:
     def __init__(self, apikey, expire, cf):
-        self.session = session(cf, "sqlite", expire)
-        self.session.headers.update({"X-CMC_PRO_API_KEY": apikey})
-        self.session.headers.update({"Accept": "application/json"})
-        self.session.headers.update({"Accept-Encoding": "deflate, gzip"})
+        self._session = session(cf, "sqlite", expire)
+        self._session.headers.update({"X-CMC_PRO_API_KEY": apikey})
+        self._session.headers.update({"Accept": "application/json"})
+        self._session.headers.update({"Accept-Encoding": "deflate, gzip"})
+
+    def clear_cache(self):
+        self._session.cache.clear()
 
 
 class Sandbox(Session):
-    url = "https://sandbox-api.coinmarketcap.com/v1/"
+    _url = "https://sandbox-api.coinmarketcap.com/v1/"
 
     def __init__(self, apikey, expire):
         cf = join(gettempdir(), "CoinMarketCap_sandbox")
@@ -43,7 +46,7 @@ class Sandbox(Session):
 
 
 class Production(Session):
-    url = "https://pro-api.coinmarketcap.com/v1"
+    _url = "https://pro-api.coinmarketcap.com/v1"
 
     def __init__(self, apikey, expire):
         cf = join(gettempdir(), "CoinMarketCap_production")

@@ -46,7 +46,7 @@ class TestClient(unittest.TestCase):
         self.assertIsInstance(sandbox, coinmarketcap.client.Sandbox)
 
     def test_request(self):
-        self.sandbox.session.cache.clear()
+        self.sandbox._session.cache.clear()
         urn = "cryptocurrency/listings/latest"
 
         # check if data is fresh
