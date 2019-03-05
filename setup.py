@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from os.path import join, dirname
-from setuptools import setup, find_packages
+from setuptools import setup
 
 
 def read(fname):
@@ -10,11 +10,11 @@ def read(fname):
 
 setup(
     # Package
-    name="CoinMarketCap",
-    version="0.0.1",
+    name="PyCoinMarketCap",
+    version="0.1",
     url="https://github.com/ani071/coinmarketcap",
     license=read("LICENSE"),
-    packages=find_packages(exclude=("tests", "docs")),
+    packages=["pycoinmarketcap"],
     keywords=["CoinMarketCap", "API"],
     # Contact
     author="Andreas Isnes Nilsen",
@@ -23,4 +23,5 @@ setup(
     description="Module for fethcing data from CoinMarketCap's v1 API",
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
+    install_requires=["requests_cache", "requests", "ratelimit"],
 )
