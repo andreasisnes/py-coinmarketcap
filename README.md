@@ -109,5 +109,6 @@ client.clear_cache()
 ```
 
 ## TODO
+This is my first python module. So, I appreciate any feedback :)
 * Enable Proper throttling of requests.
 * Testing of different python versions.
