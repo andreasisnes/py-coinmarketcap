@@ -4,21 +4,37 @@
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
 # CoinMarketCap
-Python module to send requests CoinMarketCap v1 API.
-## Authentication
-
+A Python implementation of CoinMarketCap's V1 API.
 
 ## Installing
 ```terminal
 python3 -m pip install CoinMarketCapAPI
 ```
 
+## Authentication
+Keys can be loaded given directly to the module or from a file in `$HOME/.coinmarketcap.json`, with the following syntax.
+```json
+{
+  "sandbox": "API_KEY",
+  "production": "API_KEY"
+}
+```
+
+Or as OS environment variables.
+```terminal
+export COINMARKETCAP_SANDBOX="API_KEY"
+export COINMARKETCAP_PRODUCTION="API_KEY"
+```
+
+It's highly recommended to test your application with the sandbox environment. You need a different API key when using the sandbox environment, you can get one from [here](https://sandbox.coinmarketcap.com/).
+
+
 ## Examples
 Init client with an API Key.
 ```python
 from coinmarketcap import Client
 
-key = "KEY"
+key = "API_KEY"
 client = Client(apikey=key)
 ```
 
