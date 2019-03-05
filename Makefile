@@ -15,7 +15,7 @@ egg_check:
 pypi_test:
 	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 
-pipi_prod:
+pypi_prod:
 	twine upload dist/*
 
 coverage:
