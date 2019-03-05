@@ -12,7 +12,7 @@ def read(fname):
 setup(
     # Package
     name="CoinMarketCapAPI",
-    version="0.2",
+    version="0.3",
     packages=find_packages(exclude=("tests")),
     url="https://github.com/ani071/coinmarketcap",
     keywords=["CoinMarketCap", "API"],

@@ -26,9 +26,8 @@ class Session:
 
 
 class Sandbox(Session):
-    _url = "https://sandbox-api.coinmarketcap.com/v1/"
-
     def __init__(self, apikey, expire):
+        self._url = "https://sandbox-api.coinmarketcap.com/v1/"
         cf = join(gettempdir(), "CoinMarketCap_sandbox")
         if apikey is None:
             try:
@@ -46,9 +45,8 @@ class Sandbox(Session):
 
 
 class Production(Session):
-    _url = "https://pro-api.coinmarketcap.com/v1"
-
     def __init__(self, apikey, expire):
+        self._url = "https://pro-api.coinmarketcap.com/v1/"
         cf = join(gettempdir(), "CoinMarketCap_production")
         if apikey is None:
             try:
@@ -67,7 +65,7 @@ class Production(Session):
 
 class Plan:
     __plans = {
-        "free": (10, 333, 10000),
+        "basic": (10, 333, 10000),
         "hobbyist": (60, 1333, 40000),
         "startup": (60, 4000, 120000),
         "standard": (60, 16666, 500000),

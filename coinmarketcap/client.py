@@ -11,7 +11,7 @@ from .environment import Sandbox, Production, Throttler
 
 
 class Client(Sandbox, Production):
-    """ Client allows you to request all CoinMarketCap's endpoints,
+    """ Client allows you to request all CoinMarketCap's endpoints ->
     cryptocurrency, exchange, global-metrics and tools.
 
     You need an API key to the CoinMarketCap API, see the parameter section on
@@ -24,7 +24,7 @@ class Client(Sandbox, Production):
     apikey : `str`, optional
         The API key to CoinMarketCap can be loaded in several ways.
         1. passed as argument
-        2. check in $HOME/.coinmarketcap.json. keys in the file must be:
+        2. try to laod $HOME/.coinmarketcap.json. keys are:
         {"sandbox": "API_KEY", "production": "API_KEY"}
         3. check COINMARKETCAP_{SANDBOX or PRODUCTION} environment variables.
     expire : `int`, optional
@@ -39,7 +39,7 @@ class Client(Sandbox, Production):
         Since the API do not provide any metadata regarding accounts,
         you need to pass the correct plan if and only if throttling of
         requests are activated.
-        Valid values: {"free", "hobbyist", "startup", "standard",
+        Valid values: {"basic", "hobbyist", "startup", "standard",
         "professional", "enterprise"}. If you have passed the "enterprise",
         be sure to set your own params for requests using the method "plan".
     block : `str`, optional
@@ -56,7 +56,7 @@ class Client(Sandbox, Production):
         self,
         apikey=None,
         expire=3600,
-        plan="free",
+        plan="basic",
         sandbox=False,
         throttle=None,
         block=True,
@@ -100,11 +100,7 @@ class Client(Sandbox, Production):
             res["cached"] = response.from_cache
             return res
         else:
-            try:
-                raise HTTPError("%d - %s" % (response.status_code,
-                                             res["status"]["error_message"]))
-            except KeyError:
-                raise response.raise_for_status()
+            raise response.raise_for_status()
 
     def _request_cache(self, url):
         return self._session.get(url)
