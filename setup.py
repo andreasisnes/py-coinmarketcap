@@ -11,8 +11,8 @@ def read(fname):
 
 setup(
     # Package
-    name="PyCoinMarketCap",
-    version="0.1",
+    name="CoinMarketCapAPI",
+    version="0.2",
     packages=find_packages(exclude=("tests")),
     url="https://github.com/ani071/coinmarketcap",
     keywords=["CoinMarketCap", "API"],

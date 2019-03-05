@@ -151,7 +151,8 @@ class Listings:
     """
 
     def __init__(self, request, endpoint):
-        self.request = lambda x, y: request(urljoin(endpoint, "listings", x), args(**y))
+        self.request = lambda x, y: request(
+            urljoin(endpoint, "listings", x), args(**y))
 
     def historical_start(self):
         """ Get a list of all cryptocurrencies with market data for a given
@@ -316,7 +317,8 @@ class Ohlcv:
     """
 
     def __init__(self, request, endpoint):
-        self.request = lambda x, y: request(urljoin(endpoint, "ohlcv", x), args(**y))
+        self.request = lambda x, y: request(
+            urljoin(endpoint, "ohlcv", x), args(**y))
 
     def historical_id(
         self,
@@ -510,7 +512,8 @@ class Quotes:
     """
 
     def __init__(self, request, endpoint):
-        self.request = lambda x, y: request(urljoin(endpoint, "quotes", x), args(**y))
+        self.request = lambda x, y: request(
+            urljoin(endpoint, "quotes", x), args(**y))
 
     def historical_id(
         self,

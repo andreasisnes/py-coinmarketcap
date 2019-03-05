@@ -9,7 +9,8 @@ def args(**kwarg) -> dict:
     params = {}
     for method_name, arg in kwarg.items():
         try:
-            params[method_name] = getattr(sys.modules[__name__], method_name)(arg)
+            params[method_name] = getattr(
+                sys.modules[__name__], method_name)(arg)
         except AttributeError:
             continue
     return params

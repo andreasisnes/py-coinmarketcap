@@ -8,7 +8,8 @@ class Quotes:
     """ Get the latest or historic quote of aggregated market metrics. """
 
     def __init__(self, request, endpoint):
-        self.request = lambda x, y: request(urljoin(endpoint, "quotes", x), args(**y))
+        self.request = lambda x, y: request(
+            urljoin(endpoint, "quotes", x), args(**y))
 
     def historical(
         self, time_start=None, time_end=None, count=10, interval="1d", convert="USD"
@@ -40,7 +41,8 @@ class Quotes:
             time. If "time_start" is None, it return quotes in reverse order
             starting from this time.
         count : `int`, optional
-            The number of interval periods to return results for. Optional,
+            The number of interval periods to return results for. Optional,        Request()
+
             required if both "time_start" and "time_end" aren't supplied.
             The default is 10 items. The current query limit is 10000.
         interval : `str`, optional

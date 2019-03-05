@@ -144,7 +144,8 @@ class Listings:
     """
 
     def __init__(self, request, endpoint):
-        self.request = lambda x, y: request(urljoin(endpoint, "listings", x), args(**y))
+        self.request = lambda x, y: request(
+            urljoin(endpoint, "listings", x), args(**y))
 
     def historical_start(self):
         """ Get a list of all cryptocurrency exchanges with historical market
@@ -310,7 +311,8 @@ class Quotes:
     based on time and interval parameters."""
 
     def __init__(self, request, endpoint):
-        self.request = lambda x, y: request(urljoin(endpoint, "quotes", x), args(**y))
+        self.request = lambda x, y: request(
+            urljoin(endpoint, "quotes", x), args(**y))
 
     def historical_id(
         self,
