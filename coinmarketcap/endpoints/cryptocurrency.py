@@ -323,8 +323,8 @@ class Ohlcv:
     def historical_id(
         self,
         id: Union[str, int],
-        time_start: Union[datetime.datetime, float],
-        time_end: Union[datetime.datetime, float],
+        time_start=None,
+        time_end=None,
         time_period="daily",
         count=10,
         interval="daily",
@@ -335,15 +335,34 @@ class Ohlcv:
         Currently daily and hourly OHLCV periods are supported. Volume is only
         supported with daily periods at this time.
 
+        Notes
+        -----
+        * Only the date portion of the timestamp is used for daily OHLCV so
+        it's recommended to send an ISO date format like "2018-09-19" without
+        time for this "time_period".
+        * One OHLCV quote will be returned for every "time_period" between
+        your "time_start" (exclusive) and "time_end" (inclusive).
+        * If a "time_start" is `None`, the "time_period" will be
+        calculated in reverse from "time_end" using the "count" parameter
+        which defaults to 10 results.
+        * If "time_end" is `None`, it defaults to the current time.
+        * If you don't need every "time_period" between your dates you may
+        adjust the frequency that "time_period" is sampled using the
+        "interval" parameter. For example with "time_period" set to "daily"
+        you may set "interval" to "2d" to get the daily OHLCV for every other
+        day. You could set "interval" to "monthly" to get the first daily
+        OHLCV for each month, or set it to "yearly" to get the daily OHLCV
+        value against the same date every year.
+
         Parameters
         ----------
         id : `int` or `str`
             A CoinMarketCap cryptocurrency ids. Example: 1
-        time_start : `datetime.datetime`, `float` or `str`
+        time_start : `datetime.datetime`, `float` or `str`, optional
             Timestamp (datetime, Unix, ISO 8601 str) to start returning OHLCV
             time periods for. Only the date portion of the timestamp is used
             for daily OHLCV.
-        time_end : `datetime.datetime`, `float` or `str`
+        time_end : `datetime.datetime`, `float` or `str`, optional
             Timestamp (datetime, Unix, ISO 8601 str) to stop returning OHLCV
             time periods for (inclusive). Optional, if not passed we'll
             default to the current time. Only the date portion of the
@@ -355,7 +374,8 @@ class Ohlcv:
             Limit the number of time periods to return results for. The
             cucount : `int`, optional
             Limit the number of time periods to return results for. The
-            current query limit is 10000 items.rrent query limit is 10000 items.
+            current query limit is 10000 items.rrent query limit is 10000
+            items.
         interval : `str`, optional
             Adjust the interval that "time_period" is sampled.
             Valid values: {"hourly", "daily", "weekly", "monthly", "yearly",
@@ -378,13 +398,18 @@ class Ohlcv:
         requests.exceptions.HTTPError
             If status code is not 200
         """
-        return self.request("historical", locals())
+        params = locals()
+        if time_start is None:
+            del params["time_start"]
+        if time_end is None:
+            del params["time_end"]
+        return self.request("historical", params)
 
     def historical_symbol(
         self,
         symbol: str,
-        time_start: Union[datetime.datetime, float],
-        time_end: Union[datetime.datetime, float],
+        time_start=None,
+        time_end=None,
         time_period="daily",
         count=10,
         interval="daily",
@@ -395,15 +420,34 @@ class Ohlcv:
         Currently daily and hourly OHLCV periods are supported. Volume is only
         supported with daily periods at this time.
 
+        Notes
+        -----
+        * Only the date portion of the timestamp is used for daily OHLCV so
+        it's recommended to send an ISO date format like "2018-09-19" without
+        time for this "time_period".
+        * One OHLCV quote will be returned for every "time_period" between
+        your "time_start" (exclusive) and "time_end" (inclusive).
+        * If a "time_start" is `None`, the "time_period" will be
+        calculated in reverse from "time_end" using the "count" parameter
+        which defaults to 10 results.
+        * If "time_end" is `None`, it defaults to the current time.
+        * If you don't need every "time_period" between your dates you may
+        adjust the frequency that "time_period" is sampled using the
+        "interval" parameter. For example with "time_period" set to "daily"
+        you may set "interval" to "2d" to get the daily OHLCV for every other
+        day. You could set "interval" to "monthly" to get the first daily
+        OHLCV for each month, or set it to "yearly" to get the daily OHLCV
+        value against the same date every year.
+
         Parameters
         ----------
         symbol : `str`
             A cryptocurrency symbols. Example: "BTC".
-        time_start : `datetime.datetime`, `float` or `str`
+        time_start : `datetime.datetime`, `float` or `str`, optional
             Timestamp (datetime, Unix, ISO 8601 str) to start returning OHLCV
             time periods for. Only the date portion of the timestamp is used
             for daily OHLCV.
-        time_end : `datetime.datetime`, `float` or `str`
+        time_end : `datetime.datetime`, `float` or `str`, optional
             Timestamp (datetime, Unix, ISO 8601 str) to stop returning OHLCV
             time periods for (inclusive). Optional, if not passed we'll
             default to the current time. Only the date portion of the
@@ -436,7 +480,12 @@ class Ohlcv:
         requests.exceptions.HTTPError
             If status code is not 200
         """
-        return self.request("historical", locals())
+        params = locals()
+        if time_start is None:
+            del params["time_start"]
+        if time_end is None:
+            del params["time_end"]
+        return self.request("historical", params)
 
     def latest_ids(self, id: Union[list, str, int], convert="USD"):
         """ Return the latest OHLCV (Open, High, Low, Close, Volume) market
@@ -518,8 +567,8 @@ class Quotes:
     def historical_id(
         self,
         id: Union[str, int],
-        time_start: Union[datetime.datetime, float],
-        time_end: Union[datetime.datetime, float],
+        time_start=None,
+        time_end=None,
         count=10,
         interval="5m",
         convert="USD",
@@ -527,15 +576,27 @@ class Quotes:
         """ Returns an interval of historic market quotes for any
         cryptocurrency based on tuime and interval parameters.
 
+        Notes
+        -----
+        * A historic quote for every "interval" period between your
+        "time_start" and "time_end" will be returned.
+        * If a "time_start" is None, the "interval" will be applied in reverse
+        from "time_end".
+        * If "time_end" is `None`, it defaults to the current time.
+        * At each "interval" period, the historic quote that is closest in
+        time to the requested time will be returned.
+        * If no historic quotes are available in a given "interval" period up
+        until the next interval period, it will be skipped.
+
         Parameters
         ----------
         id : `int` or `str`
             A CoinMarketCap cryptocurrency ids. Example: 1
-        time_start : `datetime.datetime`, `float` or `str`
+        time_start : `datetime.datetime`, `float` or `str`, optional
             Timestamp (datetime, Unix, ISO 8601 str) to start returning OHLCV
             time periods for. Only the date portion of the timestamp is used
             for daily OHLCV.
-        time_end : `datetime.datetime`, `float` or `str`
+        time_end : `datetime.datetime`, `float` or `str`, optional
             Timestamp (datetime, Unix, ISO 8601 str) to stop returning OHLCV
             time periods for (inclusive). Optional, if not passed we'll
             default to the current time. Only the date portion of the
@@ -566,13 +627,18 @@ class Quotes:
         requests.exceptions.HTTPError
             If status code is not 200
         """
-        return self.request("historical", locals())
+        params = locals()
+        if time_start is None:
+            del params["time_start"]
+        if time_end is None:
+            del params["time_end"]
+        return self.request("historical", params)
 
     def historical_symbol(
         self,
         symbol: str,
-        time_start: Union[datetime.datetime, float],
-        time_end: Union[datetime.datetime, float],
+        time_start=None,
+        time_end=None,
         count=10,
         interval="daily",
         convert="USD",
@@ -580,15 +646,27 @@ class Quotes:
         """ Returns an interval of historic market quotes for any
         cryptocurrency based on tuime and interval parameters.
 
+        Notes
+        -----
+        * A historic quote for every "interval" period between your
+        "time_start" and "time_end" will be returned.
+        * If a "time_start" is None, the "interval" will be applied in reverse
+        from "time_end".
+        * If "time_end" is `None`, it defaults to the current time.
+        * At each "interval" period, the historic quote that is closest in
+        time to the requested time will be returned.
+        * If no historic quotes are available in a given "interval" period up
+        until the next interval period, it will be skipped.
+
         Parameters
         ----------
         symbol : `str`
             A cryptocurrency symbols. Example: "BTC".
-        time_start : `datetime.datetime`, `float` or `str`
+        time_start : `datetime.datetime`, `float` or `str`, optional
             Timestamp (datetime, Unix, ISO 8601 str) to start returning OHLCV
             time periods for. Only the date portion of the timestamp is used
             for daily OHLCV.
-        time_end : `datetime.datetime`, `float` or `str`
+        time_end : `datetime.datetime`, `float` or `str`, optional
             Timestamp (datetime, Unix, ISO 8601 str) to stop returning OHLCV
             time periods for (inclusive). Optional, if not passed we'll
             default to the current time. Only the date portion of the
@@ -619,7 +697,12 @@ class Quotes:
         requests.exceptions.HTTPError
             If status code is not 200
         """
-        return self.request("historical", locals())
+        params = locals()
+        if time_start is None:
+            del params["time_start"]
+        if time_end is None:
+            del params["time_end"]
+        return self.request("historical", params)
 
     def latest_ids(self, id: Union[list, str, int], convert="USD"):
         """

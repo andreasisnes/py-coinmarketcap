@@ -57,7 +57,8 @@ class TestCryptocurrency(unittest.TestCase):
         data_3 = self.sandbox.listings.latest_start(convert="EUR")
         data_4 = self.sandbox.listings.latest_start(sort="name")
         data_5 = self.sandbox.listings.latest_start(sort_dir="asc")
-        data_6 = self.sandbox.listings.latest_start(cryptocurrency_type="tokens")
+        data_6 = self.sandbox.listings.latest_start(
+            cryptocurrency_type="tokens")
 
         self.assertIsInstance(data_1, dict)
         self.assertIsInstance(data_2, dict)
@@ -238,7 +239,8 @@ class TestExchange(unittest.TestCase):
 
     def test_listings_latest_start(self):
         data_1 = self.sandbox.listings.latest_start()
-        data_2 = self.sandbox.listings.latest_start(limit=200, market_type="fees")
+        data_2 = self.sandbox.listings.latest_start(
+            limit=200, market_type="fees")
 
         self.assertIsInstance(data_1["data"], list)
         self.assertIsInstance(data_2["data"], list)
@@ -281,7 +283,8 @@ class TestExchange(unittest.TestCase):
     def test_quotes_latest_ids(self):
         data_1 = self.sandbox.quotes.latest_ids(270)
         data_2 = self.sandbox.quotes.latest_ids([270, 22])
-        data_3 = self.sandbox.quotes.latest_ids([270, 22], convert=["USD", "EUR"])
+        data_3 = self.sandbox.quotes.latest_ids(
+            [270, 22], convert=["USD", "EUR"])
 
         self.assertIsInstance(data_1["data"], dict)
         self.assertIsInstance(data_2["data"], dict)
@@ -340,7 +343,8 @@ class TestTools(unittest.TestCase):
 
     def test_price_convert_symbol(self):
         time = datetime.strptime("2018-12-21", "%Y-%m-%d").timestamp()
-        data = self.sandbox.price.convert_symbol(100, "BTC", time, convert="USD")
+        data = self.sandbox.price.convert_symbol(
+            100, "BTC", time, convert="USD")
         self.assertIsInstance(data["data"], dict)
 
         data = self.sandbox.price.convert_symbol(100, "BTC")
