@@ -1,10 +1,16 @@
-.PHONY: init test clean pypi_test pypi_prod egg egg_check
+.PHONY: init test clean pypi_test pypi_prod egg egg_check test_unit test_integration
 
 init:
 	pip install -r requirements.txt
 
 test:
 	py.test tests
+
+test_unit:
+	python tests/test_integration.py
+
+test_integration:
+	python tests/test_integration.py
 
 egg:
 	python setup.py sdist bdist_wheel
