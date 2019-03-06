@@ -1,6 +1,6 @@
 ![Coverage](https://img.shields.io/badge/coverage-87%25-yellowgreen.svg)
 ![Python](https://img.shields.io/badge/Python-3.7-brightgreen.svg)
-![Version](https://img.shields.io/badge/Version-0.4-brightgreen.svg)
+![Version](https://img.shields.io/badge/Version-0.5-brightgreen.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
 # CoinMarketCap
