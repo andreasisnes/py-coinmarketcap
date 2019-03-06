@@ -6,7 +6,8 @@
 # CoinMarketCap
 A Python implementation of CoinMarketCap's V1 API.
 
-You need an API key from CoinMarketCap in order to utilize this module, you can get a key from [here](https://coinmarketcap.com/api/). Due the low request rate, I recommend you to test your application in a sandbox environment. You need a different API key when using their sandbox environment, which you can get from [here](https://sandbox.coinmarketcap.com/).
+
+You need an API key from CoinMarketCap to utilize this module, and you can get a key from [here](https://coinmarketcap.com/api/). Due to the low request rate, I recommend you to test your application in a sandbox environment. You need a different API key when using their sandbox environment, which you can get from [here](https://sandbox.coinmarketcap.com/)..
 
 ## Installing
 ```terminal
@@ -35,7 +36,7 @@ from coinmarketcap import Client
 
 key = "API_KEY"
 client = Client(apikey=key)
-```request limit
+```
 
 The following example shows how you can access and send a request to each of CoinMarketCap's endpoint (cryptocurrency, exchange, global_metrics, tools). Notice plural and singular method endings. Plurals allow a list of `id`, `symbol` or `slug`, singular allows only a single value.
 
@@ -90,15 +91,14 @@ client_3 = Client(throttle="monthly", block=False, plan="professional")
 Each request is cached, the expiration time of data can be adjusted with the keyword argument `expire`. Set `expire=0` if don't want any cached data.
 ```python
 from coinmarketcap import Client
-# cached request will be removed after 1 second
+# cached request will be removed after a second.
 client = Client(expire=1)
 
-# cacherd request will be removed after 1 h
+# cached request will be removed after an hour
 client = Client(expire=3600)
 
 # To remove all data from the cache, use the method clear_cache
 client.clear_cache()
-
 ```
 
 ## TODO
