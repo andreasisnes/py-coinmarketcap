@@ -7,7 +7,7 @@
 A Python implementation of CoinMarketCap's V1 API.
 
 
-You need an API key from CoinMarketCap to utilize this module, and you can get a key from [here](https://coinmarketcap.com/api/). Due to the low request rate, I recommend you to test your application in a sandbox environment. You need a different API key when using their sandbox environment, which you can get from [here](https://sandbox.coinmarketcap.com/)..
+You need an API key from CoinMarketCap to utilize this module, and you can get a key from [here](https://coinmarketcap.com/api/). Due to the low request rate, I recommend you to test your application in their sandbox environment. You need a different API key when using their sandbox environment that you can get from [here](https://sandbox.coinmarketcap.com/).
 
 ## Installing
 ```terminal
@@ -103,6 +103,6 @@ client.clear_cache()
 
 ## TODO
 * Enable Proper throttling of requests.
-* Testing of different python versions.
+* Testing in different python versions.
 
 This is my first python module. So, I appreciate any feedback :)
