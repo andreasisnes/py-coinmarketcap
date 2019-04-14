@@ -7,7 +7,7 @@
 A Python implementation of CoinMarketCap's V1 API.
 
 
-You need an API key from CoinMarketCap to utilize this module, and you can get a key from [here](https://coinmarketcap.com/api/). Due to the low request rate, I recommend you to test your application in their sandbox environment. You need a different API key when using their sandbox environment that you can get from [here](https://sandbox.coinmarketcap.com/).
+You need an API key from CoinMarketCap to use their API, you can get a key from [here](https://coinmarketcap.com/api/). Due to the low request rate, I recommend you to test your application in their sandbox environment. You need a different API key when using their sandbox environment that you can get from [here](https://sandbox.coinmarketcap.com/).
 
 ## Installing
 ```terminal
@@ -23,7 +23,7 @@ If no keys are provided during init, the module will look for a JSON file in `$H
 }
 ```
 
-Alternatively, you can set your keys as OS environment variables. With .bashrc, add the following two lines.
+Alternatively, you can set your keys as OS environment variables. In .bashrc, add the following two lines.
 ```terminal
 export COINMARKETCAP_SANDBOX="API_KEY"
 export COINMARKETCAP_PRODUCTION="API_KEY"
@@ -68,7 +68,7 @@ client.tools.price.convert_id(amount_1, id, time=time)
 client.tools.price.convert_symbol(amount_2, "BTC", convert=["USD", "ETH"])
 ```
 
-Due to CoinMarketCap's credit and rate limit system, implementing a proper request throttler is complex. Anyway, I tried to apply three different levels of throttling. "minute", "daily", "monthly". Each level make sure you don't exceed the request limit of the given plan. The different levels have no perception of CoinMarketCap's credit system...
+Due to CoinMarketCap's credit and rate limit system, implementing a proper request throttler is complex. Anyway, I tried to apply three different levels of throttling. "minute", "daily", "monthly". Each level makes sure you don't exceed your request limit.
 
 ```python  
 
